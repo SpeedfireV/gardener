@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gardener/HomePage.dart';
 import 'package:gardener/colors.dart';
+import 'package:gardener/home_page.dart';
+import 'package:gardener/plants_handbook_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -32,8 +33,10 @@ class CustomDrawer extends StatelessWidget {
                     label: "Plants Handbook",
                     iconData: Icons.book_sharp,
                     function: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PlantsHandbookPage()));
                     },
                   ),
                   SizedBox(height: 24),

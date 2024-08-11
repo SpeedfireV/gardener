@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gardener/models/plant_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'colors.dart';
 
 class PlantInfoPage extends StatefulWidget {
-  const PlantInfoPage({super.key});
+  const PlantInfoPage({super.key, required this.plantData});
+  final PlantData plantData;
 
   @override
   State<PlantInfoPage> createState() => _PlantInfoPageState();
@@ -198,6 +200,9 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               borderRadius: BorderRadius.circular(15),
               onTap: () {
                 debugPrint("Planting Season Tapped");
+                showDialog(
+                    context: context,
+                    builder: (context) => PlantingSeasonDialog());
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -258,6 +263,9 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () {
                       debugPrint("Needed Water Tapped");
+                      showDialog(
+                          context: context,
+                          builder: (context) => NeededWaterDialog());
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -312,6 +320,9 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () {
                       debugPrint("Needed Light Tapped");
+                      showDialog(
+                          context: context,
+                          builder: (context) => NeededLightDialog());
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -572,6 +583,432 @@ class InformationCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                     )
                   : Container()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PlantingSeasonDialog extends StatelessWidget {
+  const PlantingSeasonDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.info_outline_rounded,
+              size: 40,
+              color: ColorPalette.primaryTextColor,
+            ),
+            SizedBox(height: 4),
+            Text(
+              "Seasons' Description",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: ColorPalette.primaryTextColor),
+            ),
+            SizedBox(height: 24),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: ColorPalette.primaryColor),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  "Planting Season",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorPalette.primaryTextColor),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: ColorPalette.mediumColor),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  "Growing Season",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorPalette.primaryTextColor),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorPalette.complementaryColor),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  "Harvest Season",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorPalette.primaryTextColor),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorPalette.secondaryGreyColor),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  "Resting Season",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorPalette.primaryTextColor),
+                ),
+              ],
+            ),
+            SizedBox(height: 18),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Close",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorPalette.deleteColor),
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NeededWaterDialog extends StatelessWidget {
+  const NeededWaterDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                size: 40,
+                color: ColorPalette.primaryTextColor,
+              ),
+              SizedBox(height: 4),
+              Text(
+                "Needed Water Description",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: ColorPalette.primaryTextColor),
+              ),
+              SizedBox(height: 24),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 1
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 2
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 3
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 4
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 5
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 6
+                              ? "lib/assets/images/droplet.png"
+                              : "lib/assets/images/droplet_outlined.png"),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 18),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Close",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: ColorPalette.deleteColor),
+                  ))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NeededLightDialog extends StatelessWidget {
+  const NeededLightDialog({super.key});
+
+  final String _icon = "lib/assets/images/sun.png";
+  final String _icon_outlined = "lib/assets/images/sun_outlined.png";
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                size: 40,
+                color: ColorPalette.primaryTextColor,
+              ),
+              SizedBox(height: 4),
+              Text(
+                "Needed Water Description",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: ColorPalette.primaryTextColor),
+              ),
+              SizedBox(height: 24),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 1 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 2 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 3 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 4 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 5 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 20,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Image(
+                          image: AssetImage(index < 6 ? _icon : _icon_outlined),
+                          width: 20,
+                          height: 20,
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    itemCount: 6),
+              ),
+              Text("Needs to be watered few times a week"),
+              SizedBox(height: 18),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Close",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: ColorPalette.deleteColor),
+                  ))
             ],
           ),
         ),

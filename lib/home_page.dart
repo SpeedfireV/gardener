@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gardener/drawer.dart';
-import 'package:gardener/plantInfo.dart';
+import 'package:gardener/plant_info_page.dart';
 
 import 'colors.dart';
 
@@ -38,6 +38,9 @@ class _HomePageState extends State<HomePage> {
                         _scaffoldKey.currentState?.openDrawer();
                         debugPrint("Drawer Opened");
                       },
+                      style: IconButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15))),
                       icon: Icon(
                         Icons.menu_rounded,
                         size: 40,
@@ -158,7 +161,7 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
         onTap: () {
           debugPrint("Plant Info Card Clicked");
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlantInfoPage()));
+              MaterialPageRoute(builder: (context) => PlantInfoPage(plantData: ,)));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -189,24 +192,71 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
                       )
                     ],
                   )),
-                  Icon(Icons.food_bank)
                 ],
               ),
-              Text("Growing Time"),
-              Row(
-                children: [
-                  // TODO: Time Icons
-                  Text("--- Time Icons ---"),
-                  Text(
-                    "7-9 weeks",
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                  )
-                ],
-              ),
-              Text(
-                "Growing Difficulty",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Growing Time",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: ColorPalette.primaryTextColor),
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            // TODO: Time Icons
+                            for (int i = 0; i < 4; i++)
+                              Icon(
+                                Icons.schedule,
+                                color: ColorPalette.primaryColor,
+                              ),
+                            SizedBox(width: 4),
+                            Text(
+                              "7-9 weeks",
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Growing Difficulty",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: ColorPalette.primaryTextColor)),
+                        SizedBox(height: 4),
+                        SizedBox(
+                          height: 24,
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) => Image(
+                                    image: AssetImage(
+                                        "lib/assets/images/leaf.png"),
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(width: 4),
+                              itemCount: 6),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

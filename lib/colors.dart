@@ -8,4 +8,5 @@ class ColorPalette {
   static const primaryColor = Color(0xFF169873);
   static const primaryTextColor = Color(0xFF36393B);
   static const secondaryGreyColor = Color(0xFF4E5356);
+  static const deleteColor = Color(0xFFEC0D22);
 }
