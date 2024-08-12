@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 
 import 'min_max_values.dart';
 
-part "plant_data.g.dart"
-
+part "plant_data.g.dart";
 
 @JsonSerializable()
 class PlantData {
@@ -35,13 +32,8 @@ class PlantData {
       this.neededLight,
       this.howToPlant);
 
-
-
-
-
-  factory PlantData.fromJson(Map<String, dynamic> json) => _$PlantDataFromJson(json);
+  factory PlantData.fromJson(Map<String, dynamic> json) =>
+      _$PlantDataFromJson(json);
 }
 
 enum Seasons { planting, growing, harvesting, resting }
-
-

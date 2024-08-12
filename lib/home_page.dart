@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gardener/drawer.dart';
+import 'package:gardener/models/min_max_values.dart';
+import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
 
 import 'colors.dart';
@@ -160,8 +162,23 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
       child: InkWell(
         onTap: () {
           debugPrint("Plant Info Card Clicked");
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlantInfoPage(plantData: ,)));
+          PlantData _plantData = PlantData(
+              "name",
+              "latin",
+              "description",
+              MinMaxValues(2, 4),
+              true,
+              MinMaxValues(25, 34),
+              4,
+              MinMaxValues(45, 85),
+              [Seasons.growing, Seasons.growing],
+              3,
+              4,
+              "howToPlant");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PlantInfoPage(plantData: _plantData)));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

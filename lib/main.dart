@@ -1,17 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardener/bloc/firestore_bloc.dart';
 import 'package:gardener/home_page.dart';
+import 'package:gardener/services/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirestoreService().getPlants();
   runApp(
-    MyApp(),
+    MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => FirestoreBloc(FirestoreService()))
+    ], child: MyApp()),
   );
 }
 
