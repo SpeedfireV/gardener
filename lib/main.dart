@@ -16,9 +16,10 @@ void main() async {
   );
   await FirestoreService().getPlants();
   runApp(
-    MultiBlocProvider(providers: [
-      BlocProvider(create: (context) => FirestoreBloc(FirestoreService()))
-    ], child: MyApp()),
+    BlocProvider(
+      create: (context) => FirestoreBloc(FirestoreService()),
+      child: MyApp(),
+    ),
   );
 }
 
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          fontFamily: GoogleFonts.merriweather().fontFamily),
+          fontFamily: GoogleFonts
+              .merriweather()
+              .fontFamily),
       home: const HomePage(),
     );
   }

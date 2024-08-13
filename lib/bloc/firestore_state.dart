@@ -3,7 +3,7 @@ part of 'firestore_bloc.dart';
 @immutable
 abstract class FirestoreState {}
 
-final class FirestoreInitial extends FirestoreState {}
+class FirestoreInitial extends FirestoreState {}
 
 class PlantsLoading extends FirestoreState {}
 

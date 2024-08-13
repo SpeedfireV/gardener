@@ -4,20 +4,20 @@ part 'min_max_values.g.dart';
 
 @JsonSerializable()
 class MinMaxValues {
-  final double minimum;
-  final double maximum;
+  final double min;
+  final double max;
 
-  const MinMaxValues(this.minimum, this.maximum);
+  const MinMaxValues(this.min, this.max);
 
   factory MinMaxValues.fromJson(Map<String, dynamic> json) =>
       _$MinMaxValuesFromJson(json);
 
   double getMin() {
-    return minimum;
+    return min;
   }
 
   double getMax() {
-    return maximum;
+    return max;
   }
 
   MinMaxValues toMinMax(Map mapOfValues) {

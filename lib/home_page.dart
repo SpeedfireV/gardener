@@ -167,7 +167,7 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
               "latin",
               "description",
               MinMaxValues(2, 4),
-              true,
+              {"pl": true},
               MinMaxValues(25, 34),
               4,
               MinMaxValues(45, 85),

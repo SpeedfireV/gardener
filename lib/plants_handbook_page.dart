@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardener/bloc/firestore_bloc.dart';
 
+import 'bloc/firestore_bloc.dart';
 import 'colors.dart';
 import 'drawer.dart';
 
@@ -14,16 +14,17 @@ class PlantsHandbookPage extends StatefulWidget {
 
 class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   @override
   void initState() {
-    BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
     super.initState();
+    // Dispatch the event here, after the Bloc has been provided
+    BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
+    debugPrint("Load Plants Event Added");
   }
 
   @override
   Widget build(BuildContext context) {
-    final FirestoreBloc _firestoreBloc =
-        BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       key: _scaffoldKey,
       drawer: const CustomDrawer(),
@@ -38,9 +39,9 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                 width: 56,
                 height: 56,
                 child: Material(
-                  elevation: 5, // Now applies actual elevation
+                  elevation: 5,
                   borderRadius: BorderRadius.circular(15),
-                  color: ColorPalette.cardColor, // Background color
+                  color: ColorPalette.cardColor,
                   child: IconButton(
                     onPressed: () {
                       _scaffoldKey.currentState?.openDrawer();
@@ -52,7 +53,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                     icon: Icon(
                       Icons.menu_rounded,
                       size: 40,
-                      color: ColorPalette.primaryTextColor, // Icon color
+                      color: ColorPalette.primaryTextColor,
                     ),
                   ),
                 ),
@@ -154,6 +155,16 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                         SizedBox(height: 4),
                         BlocBuilder<FirestoreBloc, FirestoreState>(
                             builder: (context, state) {
+                          if (state is PlantsLoaded) {
+                            return Text("Plants Loaded");
+                          } else if (state is PlantsLoading) {
+                            return Text("Plants Loading");
+                          } else if (state is PlantsError) {
+                            debugPrint(state.errorMessage);
+
+                            return Text("${state.errorMessage}");
+                          }
+                          debugPrint("Current State is $state");
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -178,7 +189,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                         FontWeight.w300),
                                                 children: [
                                                   TextSpan(
-                                                      text: "Apple",
+                                                      text: state.toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w700)),

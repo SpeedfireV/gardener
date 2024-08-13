@@ -20,8 +20,21 @@ class FirestoreBloc extends Bloc<FirestoreEvent, FirestoreState> {
         debugPrint("Plants:\n$plants");
         emit(PlantsLoaded(plants));
       } catch (e) {
-        emit(PlantsError("Failed To Load Plants"));
+        emit(PlantsError(e.toString()));
       }
     });
+  }
+
+  @override
+  void onChange(Change<FirestoreState> change) {
+    super.onChange(change);
+    print(change);
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    super.onError(error, stackTrace);
+    print(error);
+    print(stackTrace);
   }
 }
