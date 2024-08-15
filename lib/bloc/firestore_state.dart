@@ -12,6 +12,12 @@ class PlantsLoaded extends FirestoreState {
   PlantsLoaded(this.plants);
 }
 
+class PlantsFiltered extends FirestoreState {
+  final Iterable<PlantData> plants;
+
+  PlantsFiltered(this.plants);
+}
+
 class PlantsError extends FirestoreState {
   final String errorMessage;
   PlantsError(this.errorMessage);

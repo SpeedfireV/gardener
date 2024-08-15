@@ -7,11 +7,16 @@ class FirestoreService {
 
   Stream<List<PlantData>> getPlants() {
     return _todosCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+      List<PlantData> plants = snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
         PlantData plantData = PlantData.fromJson(data);
+        print("PLANT DATA: $plantData");
         return plantData;
       }).toList();
+      plants
+          .sort((a, b) => a.name.codeUnitAt(0).compareTo(b.name.codeUnitAt(0)));
+      return plants;
     });
   }
 }

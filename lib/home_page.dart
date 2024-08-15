@@ -165,6 +165,7 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
           PlantData _plantData = PlantData(
               "name",
               "latin",
+              PlantType.all,
               "description",
               MinMaxValues(2, 4),
               {"pl": true},

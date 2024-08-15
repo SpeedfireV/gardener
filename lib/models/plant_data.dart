@@ -8,6 +8,7 @@ part "plant_data.g.dart";
 class PlantData {
   final String name;
   final String latin;
+  final PlantType type;
   final String description;
   final MinMaxValues growingTime;
   final Map<String, bool> countries;
@@ -21,6 +22,7 @@ class PlantData {
   PlantData(
       this.name,
       this.latin,
+      this.type,
       this.description,
       this.growingTime,
       this.countries,
@@ -40,8 +42,8 @@ class PlantData {
           "Expected 'description' to be a String");
       assert(json['growingTime'] is Map<String, dynamic>,
           "Expected 'growingTime' to be a Map<String, dynamic>");
-      assert(json['countries'] is Map<String, bool>,
-          "Expected 'countries' to be a Map<String, bool> ${json['countries'].runtimeType}");
+      assert(json['countries'] is Map<String, dynamic>,
+          "Expected 'countries' to be a Map<String, dynamic> ${json['countries'].runtimeType}");
       assert(json['optimalTemp'] is Map<String, dynamic>,
           "Expected 'optimalTemp' to be a Map<String, dynamic>");
       assert(json['growingDifficulty'] is int,
@@ -61,6 +63,13 @@ class PlantData {
       rethrow; // Re-throwing to preserve the stack trace
     }
   }
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 enum Seasons { planting, growing, harvesting, resting }
+
+enum PlantType { all, vegetable, fruit }

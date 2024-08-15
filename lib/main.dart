@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/bloc/firestore_bloc.dart';
+import 'package:gardener/bloc/search_bloc.dart';
 import 'package:gardener/home_page.dart';
+import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/services/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,8 +18,13 @@ void main() async {
   );
   await FirestoreService().getPlants();
   runApp(
-    BlocProvider(
-      create: (context) => FirestoreBloc(FirestoreService()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => FirestoreBloc(FirestoreService())),
+        BlocProvider(
+            create: (context) =>
+                SearchBloc("", PlantType.all, [], SortingDirection.ascending))
+      ],
       child: MyApp(),
     ),
   );
@@ -35,9 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          fontFamily: GoogleFonts
-              .merriweather()
-              .fontFamily),
+          fontFamily: GoogleFonts.merriweather().fontFamily),
       home: const HomePage(),
     );
   }
