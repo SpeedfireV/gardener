@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/models/plant_data.dart';
@@ -25,7 +26,10 @@ void main() async {
         BlocProvider(create: (context) => FirestoreBloc(FirestoreService())),
         BlocProvider(
             create: (context) =>
-                SearchBloc("", PlantType.all, [], SortingDirection.ascending))
+                SearchBloc("", PlantType.all, [], SortingDirection.ascending)),
+        BlocProvider(
+            create: (context) => PlantsListBloc(
+                "", PlantType.all, [], SortingDirection.ascending, []))
       ],
       child: MyApp(),
     ),
