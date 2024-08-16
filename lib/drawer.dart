@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gardener/complementary_planting_page.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/plants_handbook_page.dart';
@@ -47,7 +48,8 @@ class CustomDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) =>
+                                    ComplementaryPlantingPage()));
                       }),
                   SizedBox(height: 24),
                   DrawerButton(

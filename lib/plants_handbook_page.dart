@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardener/bloc/plantsHandbookPage/search_bloc.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
 import 'package:gardener/utils/location.dart';
 
-import 'bloc/plantsHandbookPage/firestore_bloc.dart';
+import 'bloc/plants_handbook_page/firestore_bloc.dart';
+import 'bloc/plants_handbook_page/search_bloc.dart';
 import 'constants/colors.dart';
 import 'drawer.dart';
 
@@ -26,6 +26,12 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     // Dispatch the event here, after the Bloc has been provided
     BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
     searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
   }
 
   @override
