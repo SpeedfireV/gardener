@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gardener/colors.dart';
+import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/plants_handbook_page.dart';
 

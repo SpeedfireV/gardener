@@ -3,9 +3,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/utils/location.dart';
+import 'package:gardener/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'colors.dart';
+import 'constants/colors.dart';
+import 'constants/styles.dart';
 
 class PlantInfoPage extends StatefulWidget {
   const PlantInfoPage({super.key, required this.plantData});
@@ -16,15 +18,14 @@ class PlantInfoPage extends StatefulWidget {
 }
 
 class _PlantInfoPageState extends State<PlantInfoPage> {
-  Future _googleSearch() async {
-    final googleSearchUrl =
-        'https://www.google.com/search?q=cabbage nutrition facts';
+  Future _googleSearch(name, query) async {
+    final googleSearchUrl = 'https://www.google.com/search?q=${name} ${query}';
     if (await canLaunchUrl(Uri.parse(googleSearchUrl))) {
       await launchUrl(Uri.parse(googleSearchUrl));
     } else {
       // Handle the case where the URL can't be launched
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch Google Search')),
+        const SnackBar(content: Text('Could not launch Google Search')),
       );
     }
   }
@@ -34,9 +35,9 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
     return Scaffold(
       backgroundColor: ColorPalette.backgroundColor,
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(children: [
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -54,7 +55,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                     style: IconButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_rounded,
                       size: 40,
                       color: ColorPalette.primaryTextColor, // Icon color
@@ -63,45 +64,57 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     color: ColorPalette.cardColor,
                     borderRadius: BorderRadius.circular(15)),
-                child: Image(
+                child: const Image(
                   image: AssetImage("lib/assets/images/tomato.png"),
                   width: 40,
                   height: 40,
                 ),
               ),
-              SizedBox(width: 56)
+              const SizedBox(width: 56)
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
             widget.plantData.name,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
                 color: ColorPalette.primaryTextColor),
           ),
-          SizedBox(height: 4),
+          plantTypeToString(widget.plantData.type) != null
+              ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const SizedBox(height: 4),
+                  Text(
+                    plantTypeToString(widget.plantData.type)!,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: ColorPalette.primaryTextColor),
+                  ),
+                ])
+              : Container(),
+          const SizedBox(height: 4),
           Text(
             widget.plantData.latin,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w300,
                 color: ColorPalette.primaryTextColor),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
             widget.plantData.description,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: ColorPalette.primaryTextColor),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -111,17 +124,16 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                       "${widget.plantData.growingTime.min.toInt()}-${widget.plantData.growingTime.max.toInt()} weeks",
                   iconData: Icons.schedule,
                   mono: false),
-              SizedBox(width: 12),
               _isPlantGrownWidget(widget.plantData),
-              SizedBox(width: 12),
-              InformationCard(
+              const SizedBox(width: 12),
+              const InformationCard(
                   title: "Optimal Temp",
                   subtitle: "21-27°C",
                   iconData: Icons.device_thermostat,
                   mono: false),
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -134,14 +146,14 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Column(children: [
-                      Text(
+                      const Text(
                         "Growing Difficulty",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: ColorPalette.primaryTextColor),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         height: 20,
                         child: ListView.separated(
@@ -149,14 +161,14 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               if (index < widget.plantData.growingDifficulty) {
-                                return Image(
+                                return const Image(
                                   image:
                                       AssetImage("lib/assets/images/leaf.png"),
                                   width: 20,
                                   height: 20,
                                 );
                               } else {
-                                return Image(
+                                return const Image(
                                   image: AssetImage(
                                       "lib/assets/images/leaf_outlined.png"),
                                   width: 20,
@@ -165,14 +177,14 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                               }
                             },
                             separatorBuilder: (context, index) =>
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                             itemCount: 6),
                       )
                     ]),
                   ),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -182,17 +194,17 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Column(children: [
-                      Text(
+                      const Text(
                         "Air Humidity",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: ColorPalette.primaryTextColor),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         "${widget.plantData.airHumidity.min.toInt()}-${widget.plantData.airHumidity.max.toInt()}%",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: ColorPalette.primaryTextColor),
@@ -203,7 +215,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               ),
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Material(
             elevation: 5,
             color: ColorPalette.cardColor,
@@ -214,16 +226,17 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                 debugPrint("Planting Season Tapped");
                 showDialog(
                     context: context,
-                    builder: (context) => PlantingSeasonDialog());
+                    builder: (context) => const PlantingSeasonDialog());
               },
               child: SizedBox(
                 height: 100,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -241,7 +254,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                           )
                         ],
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         width: double.infinity,
                         height: 40,
@@ -266,7 +279,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return SizedBox(width: 8);
+                                return const SizedBox(width: 8);
                               },
                               itemCount: 12),
                         ),
@@ -277,7 +290,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               ),
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -291,13 +304,13 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                       debugPrint("Needed Water Tapped");
                       showDialog(
                           context: context,
-                          builder: (context) => NeededWaterDialog());
+                          builder: (context) => const NeededWaterDialog());
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
@@ -315,7 +328,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                               )
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 20,
                             child: ListView.separated(
@@ -323,14 +336,14 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
                                   if (index < widget.plantData.neededWater) {
-                                    return Image(
+                                    return const Image(
                                       image: AssetImage(
                                           "lib/assets/images/droplet.png"),
                                       width: 20,
                                       height: 20,
                                     );
                                   } else {
-                                    return Image(
+                                    return const Image(
                                       image: AssetImage(
                                           "lib/assets/images/droplet_outlined.png"),
                                       width: 20,
@@ -339,7 +352,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                                   }
                                 },
                                 separatorBuilder: (context, index) =>
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                 itemCount: 6),
                           )
                         ],
@@ -348,7 +361,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   ),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Material(
                   elevation: 5,
@@ -359,13 +372,13 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                       debugPrint("Needed Light Tapped");
                       showDialog(
                           context: context,
-                          builder: (context) => NeededLightDialog());
+                          builder: (context) => const NeededLightDialog());
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
@@ -383,7 +396,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                               )
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 20,
                             child: ListView.separated(
@@ -391,14 +404,14 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
                                   if (index < widget.plantData.neededLight) {
-                                    return Image(
+                                    return const Image(
                                       image: AssetImage(
                                           "lib/assets/images/sun.png"),
                                       width: 20,
                                       height: 20,
                                     );
                                   } else {
-                                    return Image(
+                                    return const Image(
                                       image: AssetImage(
                                           "lib/assets/images/sun_outlined.png"),
                                       width: 20,
@@ -407,7 +420,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                                   }
                                 },
                                 separatorBuilder: (context, index) =>
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                 itemCount: 6),
                           )
                         ],
@@ -418,7 +431,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               )
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -430,9 +443,12 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () {
                       debugPrint("How To Plant Tapped");
+                      showDialog(
+                          context: context,
+                          builder: (context) => _howToPlantDialog());
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Column(
                         children: [
                           Row(
@@ -453,7 +469,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   ),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Material(
                   elevation: 5,
@@ -462,9 +478,12 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () {
                       debugPrint("Soil Details Tapped");
+                      showDialog(
+                          context: context,
+                          builder: (context) => _soilDetailsDialog());
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Column(
                         children: [
                           Row(
@@ -487,7 +506,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               )
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -499,10 +518,11 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () async {
                       debugPrint("Nutrients Tapped");
-                      await _googleSearch();
+                      await _googleSearch(
+                          widget.plantData.name, "nutrition facts");
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Column(
                         children: [
                           Row(
@@ -526,7 +546,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   ),
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Material(
                   elevation: 5,
@@ -535,9 +555,10 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   child: InkWell(
                     onTap: () async {
                       debugPrint("Cooking Tapped");
+                      await _googleSearch(widget.plantData.name, "recipies");
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       child: Column(
                         children: [
                           Row(
@@ -572,19 +593,29 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
     switch (isPlantGrown(plant)) {
       case (IsPlantGrown.grown):
         {
-          return InformationCard(
-            title: "Grown In Your Country",
-            iconData: Icons.eco_outlined,
-            mono: true,
+          return const Row(
+            children: [
+              SizedBox(width: 12),
+              InformationCard(
+                title: "Grown In Your Country",
+                iconData: Icons.eco_outlined,
+                mono: true,
+              ),
+            ],
           );
         }
       case (IsPlantGrown.notGrown):
         {
-          return InformationCard(
-            title: "Not Grown In Your Country",
-            iconData: Icons.eco_outlined,
-            mono: true,
-            customBackgroundColor: ColorPalette.complementaryColor,
+          return const Row(
+            children: [
+              SizedBox(width: 12),
+              InformationCard(
+                title: "Not Grown In Your Country",
+                iconData: Icons.eco_outlined,
+                mono: true,
+                customBackgroundColor: ColorPalette.complementaryColor,
+              ),
+            ],
           );
         }
       default:
@@ -611,6 +642,72 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
           return ColorPalette.secondaryGreyColor;
         }
     }
+  }
+
+  Dialog _howToPlantDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: Paddings.dialogPadding,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.question_mark_rounded,
+                size: 40,
+                color: ColorPalette.primaryTextColor,
+              ),
+              SizedBox(height: 8),
+              Text(
+                "How To Plant",
+                style: TextStyles.dialogTitleStyle,
+              ),
+              SizedBox(height: 16),
+              Text(
+                widget.plantData.howToPlant,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 18),
+              closeTextButton(context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Dialog _soilDetailsDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: Paddings.dialogPadding,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.grass,
+                size: 40,
+                color: ColorPalette.primaryTextColor,
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Soil Details",
+                style: TextStyles.dialogTitleStyle,
+              ),
+              SizedBox(height: 16),
+              Text(
+                widget.plantData.soilDetails,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 18),
+              closeTextButton(context)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -645,7 +742,7 @@ class InformationCard extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
             color: customBackgroundColor ?? _backgroundColor,
             borderRadius: BorderRadius.circular(15)),
@@ -659,7 +756,7 @@ class InformationCard extends StatelessWidget {
                 size: 32,
                 color: _primaryColor,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 title,
                 style: TextStyle(
@@ -668,7 +765,7 @@ class InformationCard extends StatelessWidget {
                     color: _textColor),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               subtitle != null
                   ? Text(
                       subtitle!,
@@ -701,20 +798,17 @@ class PlantingSeasonDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.info_outline_rounded,
               size: 40,
               color: ColorPalette.primaryTextColor,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               "Seasons' Description",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
-                  color: ColorPalette.primaryTextColor),
+              style: TextStyles.dialogTitleStyle,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -722,11 +816,11 @@ class PlantingSeasonDialog extends StatelessWidget {
                 Container(
                   width: 15,
                   height: 15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: ColorPalette.primaryColor),
                 ),
-                SizedBox(width: 4),
-                Text(
+                const SizedBox(width: 4),
+                const Text(
                   "Planting Season",
                   style: TextStyle(
                       fontSize: 16,
@@ -735,20 +829,20 @@ class PlantingSeasonDialog extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   width: 15,
                   height: 15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: ColorPalette.mediumColor),
                 ),
-                SizedBox(width: 4),
-                Text(
+                const SizedBox(width: 4),
+                const Text(
                   "Growing Season",
                   style: TextStyle(
                       fontSize: 16,
@@ -757,21 +851,21 @@ class PlantingSeasonDialog extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   width: 15,
                   height: 15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorPalette.complementaryColor),
                 ),
-                SizedBox(width: 4),
-                Text(
+                const SizedBox(width: 4),
+                const Text(
                   "Harvest Season",
                   style: TextStyle(
                       fontSize: 16,
@@ -780,21 +874,21 @@ class PlantingSeasonDialog extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   width: 15,
                   height: 15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorPalette.secondaryGreyColor),
                 ),
-                SizedBox(width: 4),
-                Text(
+                const SizedBox(width: 4),
+                const Text(
                   "Resting Season",
                   style: TextStyle(
                       fontSize: 16,
@@ -803,18 +897,8 @@ class PlantingSeasonDialog extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 18),
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Close",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: ColorPalette.deleteColor),
-                ))
+            const SizedBox(height: 18),
+            closeTextButton(context)
           ],
         ),
       ),
@@ -837,20 +921,20 @@ class NeededWaterDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.info_outline_rounded,
                 size: 40,
                 color: ColorPalette.primaryTextColor,
               ),
-              SizedBox(height: 4),
-              Text(
+              const SizedBox(height: 4),
+              const Text(
                 "Needed Water Description",
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
                     color: ColorPalette.primaryTextColor),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -863,11 +947,12 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -880,11 +965,12 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -897,11 +983,12 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -914,11 +1001,12 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -931,11 +1019,12 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -948,22 +1037,13 @@ class NeededWaterDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 18),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Close",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: ColorPalette.deleteColor),
-                  ))
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 18),
+              closeTextButton(context)
             ],
           ),
         ),
@@ -990,20 +1070,20 @@ class NeededLightDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.info_outline_rounded,
                 size: 40,
                 color: ColorPalette.primaryTextColor,
               ),
-              SizedBox(height: 4),
-              Text(
+              const SizedBox(height: 4),
+              const Text(
                 "Needed Water Description",
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
                     color: ColorPalette.primaryTextColor),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1014,11 +1094,12 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1029,11 +1110,12 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1044,11 +1126,12 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1059,11 +1142,12 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1074,11 +1158,12 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 8),
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 20,
                 child: ListView.separated(
@@ -1089,22 +1174,13 @@ class NeededLightDialog extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                    separatorBuilder: (context, index) => SizedBox(width: 4),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 4),
                     itemCount: 6),
               ),
-              Text("Needs to be watered few times a week"),
-              SizedBox(height: 18),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Close",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: ColorPalette.deleteColor),
-                  ))
+              const Text("Needs to be watered few times a week"),
+              const SizedBox(height: 18),
+              closeTextButton(context)
             ],
           ),
         ),

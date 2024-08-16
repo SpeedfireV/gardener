@@ -3,7 +3,6 @@ import 'dart:ui';
 class ColorPalette {
   static const backgroundColor = Color(0xFFEEF5DB);
   static const cardColor = Color(0xFFFFFFFF);
-  static const ccardColor = Color(0xFFB9D29C);
   static const complementaryColor = Color(0xFF98163B);
   static const mediumColor = Color(0xFFE2AA1D);
   static const primaryColor = Color(0xFF169873);

@@ -4,7 +4,7 @@ import 'package:gardener/models/min_max_values.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
 
-import 'colors.dart';
+import 'constants/colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -175,7 +175,8 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
               [Seasons.growing, Seasons.growing],
               3,
               4,
-              "howToPlant");
+              "howToPlant",
+              "soilDet");
           Navigator.push(
               context,
               MaterialPageRoute(

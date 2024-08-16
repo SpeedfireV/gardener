@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/bloc/plantsHandbookPage/firestore_bloc.dart';
 import 'package:gardener/bloc/plantsHandbookPage/search_bloc.dart';
-import 'package:gardener/colors.dart';
+import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/services/firestore.dart';

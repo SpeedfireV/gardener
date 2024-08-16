@@ -6,7 +6,7 @@ import 'package:gardener/plant_info_page.dart';
 import 'package:gardener/utils/location.dart';
 
 import 'bloc/plantsHandbookPage/firestore_bloc.dart';
-import 'colors.dart';
+import 'constants/colors.dart';
 import 'drawer.dart';
 
 class PlantsHandbookPage extends StatefulWidget {

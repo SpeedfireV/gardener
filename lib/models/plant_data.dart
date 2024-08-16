@@ -19,6 +19,7 @@ class PlantData {
   final int neededWater;
   final int neededLight;
   final String howToPlant;
+  final String soilDetails;
   PlantData(
       this.name,
       this.latin,
@@ -32,7 +33,8 @@ class PlantData {
       this.seasons,
       this.neededWater,
       this.neededLight,
-      this.howToPlant);
+      this.howToPlant,
+      this.soilDetails);
 
   factory PlantData.fromJson(Map<String, dynamic> json) {
     try {
@@ -55,6 +57,8 @@ class PlantData {
       assert(json['neededLight'] is int, "Expected 'neededLight' to be an int");
       assert(
           json['howToPlant'] is String, "Expected 'howToPlant' to be a String");
+      assert(json['soilDetails'] is String,
+          "Expected 'howToPlant' to be a String");
       print("Assertions passed");
       return _$PlantDataFromJson(json);
     } catch (e) {
@@ -73,3 +77,18 @@ class PlantData {
 enum Seasons { planting, growing, harvesting, resting }
 
 enum PlantType { all, vegetable, fruit }
+
+String? plantTypeToString(PlantType plantType) {
+  switch (plantType) {
+    case PlantType.vegetable:
+      {
+        return "Vegetable";
+      }
+    case PlantType.fruit:
+      {
+        return "Fruit";
+      }
+    default:
+      return null;
+  }
+}
