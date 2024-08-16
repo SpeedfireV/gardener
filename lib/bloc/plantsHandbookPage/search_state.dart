@@ -15,3 +15,9 @@ class SearchError extends SearchState {
 
   SearchError(this.errorMessage);
 }
+
+class SearchFiltering extends SearchState {}
+
+class SearchSorting extends SearchState {}
+
+class SearchCardExpanding extends SearchState {}

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardener/bloc/search_bloc.dart';
+import 'package:gardener/bloc/plantsHandbookPage/search_bloc.dart';
 import 'package:gardener/models/plant_data.dart';
+import 'package:gardener/plant_info_page.dart';
+import 'package:gardener/utils/location.dart';
 
-import 'bloc/firestore_bloc.dart';
+import 'bloc/plantsHandbookPage/firestore_bloc.dart';
 import 'colors.dart';
 import 'drawer.dart';
 
@@ -23,13 +25,12 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     super.initState();
     // Dispatch the event here, after the Bloc has been provided
     BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
-
-    debugPrint("Load Plants Event Added");
     searchController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
+    searchController.text = context.read<SearchBloc>().query;
     return Scaffold(
       key: _scaffoldKey,
       drawer: const CustomDrawer(),
@@ -68,6 +69,9 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   child: SearchBar(
                 controller: searchController,
                 hintText: "Find your plant",
+                onTapOutside: (pointer) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
                 onChanged: (query) {
                   context.read<SearchBloc>().add(SearchQueryChanged(query));
                 },
@@ -134,7 +138,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   color: ColorPalette.cardColor,
                   child: InkWell(
                     onTap: () {
-                      debugPrint("Sort By Tapped");
+                      debugPrint("Sorting Tapped");
                       _showSortingDialog(context);
                     },
                     child: const Padding(
@@ -145,7 +149,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                               Icon(Icons.sort),
                               SizedBox(width: 8),
                               Text(
-                                "Sort By",
+                                "Sorting",
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w900,
@@ -162,11 +166,12 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
             builder: (context, firestoreState) {
               if (firestoreState is PlantsLoaded) {
                 context.read<SearchBloc>().setPlants(firestoreState.plants);
-                context.read<SearchBloc>().add(FilterChanged(PlantType.all));
+                context
+                    .read<SearchBloc>()
+                    .add(SearchFilterChanged(PlantType.all));
                 return BlocBuilder<SearchBloc, SearchState>(
                   builder: (context, searchState) {
                     if (searchState is SearchFiltered) {
-                      print(searchState.filteredPlants);
                       Map<String, List<PlantData>> plantsByLetters =
                           _dividePlantsByFirstLetter(
                               searchState.filteredPlants);
@@ -177,6 +182,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                           itemBuilder: (context, letterIndex) {
                             String currentLetter =
                                 letters.elementAt(letterIndex);
+                            String? expandedCard =
+                                context.read<SearchBloc>().expanded;
                             return Padding(
                               padding: const EdgeInsets.only(top: 16.0),
                               child: Column(
@@ -197,77 +204,215 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
-                                        print("Current letter: $currentLetter");
+                                        ScrollController
+                                            expandedScrollController =
+                                            ScrollController();
+                                        PlantData plant = plantsByLetters[
+                                                letters.elementAt(letterIndex)]!
+                                            .elementAt(index);
+
                                         return Material(
                                           elevation: 5,
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           color: ColorPalette.cardColor,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                RichText(
-                                                  text: TextSpan(
-                                                      style: const TextStyle(
-                                                          color: ColorPalette
-                                                              .primaryTextColor,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w300),
-                                                      children: [
-                                                        TextSpan(
-                                                            text: plantsByLetters[
-                                                                    letters.elementAt(
-                                                                        letterIndex)]!
-                                                                .elementAt(
-                                                                    index)
-                                                                .name,
+                                          child: InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            onTap: () {
+                                              context.read<SearchBloc>().add(
+                                                  SearchCardClicked(
+                                                      plant.latin));
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(
                                                             style: const TextStyle(
+                                                                color: ColorPalette
+                                                                    .primaryTextColor,
+                                                                fontSize: 14,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w700)),
-                                                        const TextSpan(
-                                                            text: " | "),
-                                                        TextSpan(
-                                                            text: plantsByLetters[
-                                                                    letters.elementAt(
-                                                                        letterIndex)]!
-                                                                .elementAt(
-                                                                    index)
-                                                                .latin)
-                                                      ]),
-                                                ),
-                                                SizedBox(
-                                                  width: 40,
-                                                  height: 40,
-                                                  child: Material(
-                                                    elevation: 5,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    color: ColorPalette
-                                                        .primaryColor,
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        debugPrint(
-                                                            "Plant Info Tapped");
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .arrow_forward_ios_rounded,
-                                                        size: 24,
-                                                        color: ColorPalette
-                                                            .cardColor,
+                                                                        .w300),
+                                                            children: [
+                                                              TextSpan(
+                                                                  text: plant
+                                                                      .name,
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700)),
+                                                              const TextSpan(
+                                                                  text: " | "),
+                                                              TextSpan(
+                                                                  text: plant
+                                                                      .latin)
+                                                            ]),
                                                       ),
-                                                    ),
+                                                      SizedBox(
+                                                        width: 40,
+                                                        height: 40,
+                                                        child: Material(
+                                                          elevation: 5,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          color: ColorPalette
+                                                              .primaryColor,
+                                                          child: IconButton(
+                                                            onPressed: () {
+                                                              debugPrint(
+                                                                  "Plant Info Tapped");
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          PlantInfoPage(
+                                                                              plantData: plant)));
+                                                            },
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 24,
+                                                              color: ColorPalette
+                                                                  .cardColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                              ],
+                                                  plant.latin == expandedCard
+                                                      ? Container(
+                                                          height: 80,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 4),
+                                                          width:
+                                                              double.infinity,
+                                                          child: RawScrollbar(
+                                                            controller:
+                                                                expandedScrollController,
+                                                            thumbVisibility:
+                                                                true,
+                                                            thumbColor:
+                                                                ColorPalette
+                                                                    .primaryColor,
+                                                            radius:
+                                                                Radius.circular(
+                                                                    15),
+                                                            child:
+                                                                SingleChildScrollView(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  _grownInCountryWidget(
+                                                                      plant),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          4),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .schedule_rounded,
+                                                                        color: ColorPalette
+                                                                            .primaryTextColor,
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              4),
+                                                                      RichText(
+                                                                        text: TextSpan(
+                                                                            style: const TextStyle(
+                                                                                color: ColorPalette.primaryTextColor,
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w700),
+                                                                            children: [
+                                                                              TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                                              TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
+                                                                            ]),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          4),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .thermostat,
+                                                                        color: ColorPalette
+                                                                            .primaryTextColor,
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              4),
+                                                                      RichText(
+                                                                        text: TextSpan(
+                                                                            style: const TextStyle(
+                                                                                color: ColorPalette.primaryTextColor,
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w700),
+                                                                            children: [
+                                                                              TextSpan(text: "Optimal Temp ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                                              TextSpan(text: "${plant.optimalTemp.min}-${plant.optimalTemp.max}°C")
+                                                                            ]),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          4),
+                                                                  GestureDetector(
+                                                                    onTap:
+                                                                        () {},
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Planting Time",
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              color: ColorPalette.primaryTextColor,
+                                                                              fontWeight: FontWeight.w700),
+                                                                        ),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                4),
+                                                                        Icon(
+                                                                          Icons
+                                                                              .info_outline,
+                                                                          color:
+                                                                              ColorPalette.primaryTextColor,
+                                                                          size:
+                                                                              20,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         );
@@ -290,7 +435,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
               } else if (firestoreState is PlantsLoading) {
                 return const CircularProgressIndicator();
               } else if (firestoreState is PlantsError) {
-                debugPrint(firestoreState.errorMessage);
                 return const Text("Error loading data");
               }
               return const CircularProgressIndicator();
@@ -301,11 +445,11 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     );
   }
 
-  _showFiltersDialog(BuildContext context) {
+  _showFiltersDialog(BuildContext globalContext) {
     showModalBottomSheet(
         context: context,
         builder: (context) => BlocProvider.value(
-              value: BlocProvider.of<SearchBloc>(context),
+              value: BlocProvider.of<SearchBloc>(globalContext),
               child: BottomSheet(
                   onClosing: () => print("Filters Bottom Sheet Closed"),
                   builder: (context) => BlocBuilder<SearchBloc, SearchState>(
@@ -342,30 +486,30 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                   value: PlantType.all,
                                   groupValue: context.read<SearchBloc>().filter,
                                   onChanged: (PlantType? newFilter) {
-                                    print("$newFilter");
+                                    print("Set New Filter: $newFilter");
                                     context
                                         .read<SearchBloc>()
-                                        .add(FilterChanged(newFilter!));
+                                        .add(SearchFilterChanged(newFilter!));
                                   },
                                   child: const Text("All")),
                               RadioMenuButton(
                                   value: PlantType.vegetable,
                                   groupValue: context.read<SearchBloc>().filter,
                                   onChanged: (PlantType? newFilter) {
-                                    print("$newFilter");
+                                    print("Set New Filter: $newFilter");
                                     context
                                         .read<SearchBloc>()
-                                        .add(FilterChanged(newFilter!));
+                                        .add(SearchFilterChanged(newFilter!));
                                   },
                                   child: const Text("Vegetables")),
                               RadioMenuButton(
                                   value: PlantType.fruit,
                                   groupValue: context.read<SearchBloc>().filter,
                                   onChanged: (PlantType? newFilter) {
-                                    print("$newFilter");
+                                    print("Set New Filter: $newFilter");
                                     context
                                         .read<SearchBloc>()
-                                        .add(FilterChanged(newFilter!));
+                                        .add(SearchFilterChanged(newFilter!));
                                   },
                                   child: const Text("Fruits"))
                             ],
@@ -375,11 +519,11 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
             ));
   }
 
-  _showSortingDialog(BuildContext context) {
+  _showSortingDialog(BuildContext globalContext) {
     showModalBottomSheet(
         context: context,
         builder: (context) => BlocProvider.value(
-              value: BlocProvider.of<SearchBloc>(context),
+              value: BlocProvider.of<SearchBloc>(globalContext),
               child: BottomSheet(
                   onClosing: () => print("Sorting Bottom Sheet Closed"),
                   builder: (context) => BlocBuilder<SearchBloc, SearchState>(
@@ -419,9 +563,11 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                       .sortingDirection,
                                   onChanged:
                                       (SortingDirection? newSortingDirection) {
-                                    print("$newSortingDirection");
+                                    print(
+                                        "Set Sorting Direction: $newSortingDirection");
                                     context.read<SearchBloc>().add(
-                                        SortingChanged(newSortingDirection!));
+                                        SearchSortingChanged(
+                                            newSortingDirection!));
                                   },
                                   child: const Text("Ascending")),
                               RadioMenuButton(
@@ -431,9 +577,11 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                       .sortingDirection,
                                   onChanged:
                                       (SortingDirection? newSortingDirection) {
-                                    print("$newSortingDirection");
+                                    print(
+                                        "Set Sorting Direction: $newSortingDirection");
                                     context.read<SearchBloc>().add(
-                                        SortingChanged(newSortingDirection!));
+                                        SearchSortingChanged(
+                                            newSortingDirection!));
                                   },
                                   child: const Text("Descending"))
                             ],
@@ -454,7 +602,52 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
         dividedPlants[firstLetter] = [plantData];
       }
     }
-    print(dividedPlants);
     return dividedPlants;
+  }
+
+  Widget _grownInCountryWidget(PlantData plant) {
+    IsPlantGrown? grownInUserCountry = isPlantGrown(plant);
+    switch (grownInUserCountry) {
+      case IsPlantGrown.grown:
+        {
+          return Row(
+            children: [
+              Icon(
+                Icons.check,
+                color: ColorPalette.primaryColor,
+              ),
+              SizedBox(width: 4),
+              Text(
+                "Grown In Your Country",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: ColorPalette.primaryColor,
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          );
+        }
+      case IsPlantGrown.notGrown:
+        {
+          return Row(
+            children: [
+              Icon(
+                Icons.check,
+                color: ColorPalette.deleteColor,
+              ),
+              SizedBox(width: 4),
+              Text(
+                "Not Grown In Your Country",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: ColorPalette.deleteColor,
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          );
+        }
+      default:
+        return Container();
+    }
   }
 }

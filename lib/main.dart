@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardener/bloc/firestore_bloc.dart';
-import 'package:gardener/bloc/search_bloc.dart';
+import 'package:gardener/bloc/plantsHandbookPage/firestore_bloc.dart';
+import 'package:gardener/bloc/plantsHandbookPage/search_bloc.dart';
+import 'package:gardener/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/services/firestore.dart';
@@ -17,6 +18,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirestoreService().getPlants();
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -40,7 +42,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          scaffoldBackgroundColor: ColorPalette.backgroundColor,
+          radioTheme: RadioThemeData(
+              fillColor: WidgetStateProperty.all(ColorPalette.primaryColor)),
+          progressIndicatorTheme:
+              ProgressIndicatorThemeData(color: ColorPalette.primaryColor),
+          textSelectionTheme:
+              TextSelectionThemeData(cursorColor: ColorPalette.primaryColor),
+          inputDecorationTheme: InputDecorationTheme(),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
           fontFamily: GoogleFonts.merriweather().fontFamily),
       home: const HomePage(),

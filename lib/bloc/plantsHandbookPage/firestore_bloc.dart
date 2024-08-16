@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../models/plant_data.dart';
-import '../services/firestore.dart';
+import '../../models/plant_data.dart';
+import '../../services/firestore.dart';
 
 part 'firestore_event.dart';
 part 'firestore_state.dart';

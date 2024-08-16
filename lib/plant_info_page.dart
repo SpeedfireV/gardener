@@ -1,5 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:gardener/models/plant_data.dart';
+import 'package:gardener/utils/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'colors.dart';
@@ -75,7 +78,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
           ),
           SizedBox(height: 12),
           Text(
-            "Tomatoes",
+            widget.plantData.name,
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
@@ -83,7 +86,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
           ),
           SizedBox(height: 4),
           Text(
-            "Solanum lycopersicum",
+            widget.plantData.latin,
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w300,
@@ -91,7 +94,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
           ),
           SizedBox(height: 12),
           Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum  interdum purus augue, et malesuada arcu tincidunt euismod. Sed tellus  lacus, laoreet eget justo tempor, vehicula dictum massa. In a porta.",
+            widget.plantData.description,
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -104,14 +107,12 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
             children: [
               InformationCard(
                   title: "Growing Time",
-                  subtitle: "2-3 weeks",
+                  subtitle:
+                      "${widget.plantData.growingTime.min.toInt()}-${widget.plantData.growingTime.max.toInt()} weeks",
                   iconData: Icons.schedule,
                   mono: false),
               SizedBox(width: 12),
-              InformationCard(
-                  title: "Grown In Poland",
-                  iconData: Icons.eco_outlined,
-                  mono: true),
+              _isPlantGrownWidget(widget.plantData),
               SizedBox(width: 12),
               InformationCard(
                   title: "Optimal Temp",
@@ -146,12 +147,23 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                         child: ListView.separated(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => Image(
+                            itemBuilder: (context, index) {
+                              if (index < widget.plantData.growingDifficulty) {
+                                return Image(
                                   image:
                                       AssetImage("lib/assets/images/leaf.png"),
                                   width: 20,
                                   height: 20,
-                                ),
+                                );
+                              } else {
+                                return Image(
+                                  image: AssetImage(
+                                      "lib/assets/images/leaf_outlined.png"),
+                                  width: 20,
+                                  height: 20,
+                                );
+                              }
+                            },
                             separatorBuilder: (context, index) =>
                                 SizedBox(width: 4),
                             itemCount: 6),
@@ -179,7 +191,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        "40-75%",
+                        "${widget.plantData.airHumidity.min.toInt()}-${widget.plantData.airHumidity.max.toInt()}%",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -204,49 +216,63 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                     context: context,
                     builder: (context) => PlantingSeasonDialog());
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Planting Season",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: ColorPalette.primaryTextColor,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(width: 4),
-                        Icon(
-                          Icons.info_outline,
-                          color: ColorPalette.primaryTextColor,
-                          size: 20,
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        for (int i = 1; i < 13; i++)
-                          Column(
-                            children: [
-                              Container(
-                                width: 15,
-                                height: 15,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: ColorPalette.secondaryGreyColor),
-                              ),
-                              Text(i.toString())
-                            ],
+              child: SizedBox(
+                height: 100,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Planting Season",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: ColorPalette.primaryTextColor,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.info_outline,
+                            color: ColorPalette.primaryTextColor,
+                            size: 20,
                           )
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: Center(
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    MyArc(
+                                      diameter: 20,
+                                      leftSideColor: _colorBySeason(widget
+                                          .plantData
+                                          .seasons[(index + 1) * 2 - 2]),
+                                      rightSideColor: _colorBySeason(widget
+                                          .plantData
+                                          .seasons[(index + 1) * 2 - 1]),
+                                    ),
+                                    Text(index.toString())
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(width: 8);
+                              },
+                              itemCount: 12),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -295,12 +321,23 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                             child: ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Image(
+                                itemBuilder: (context, index) {
+                                  if (index < widget.plantData.neededWater) {
+                                    return Image(
                                       image: AssetImage(
                                           "lib/assets/images/droplet.png"),
                                       width: 20,
                                       height: 20,
-                                    ),
+                                    );
+                                  } else {
+                                    return Image(
+                                      image: AssetImage(
+                                          "lib/assets/images/droplet_outlined.png"),
+                                      width: 20,
+                                      height: 20,
+                                    );
+                                  }
+                                },
                                 separatorBuilder: (context, index) =>
                                     SizedBox(width: 4),
                                 itemCount: 6),
@@ -352,12 +389,23 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                             child: ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Image(
+                                itemBuilder: (context, index) {
+                                  if (index < widget.plantData.neededLight) {
+                                    return Image(
                                       image: AssetImage(
                                           "lib/assets/images/sun.png"),
                                       width: 20,
                                       height: 20,
-                                    ),
+                                    );
+                                  } else {
+                                    return Image(
+                                      image: AssetImage(
+                                          "lib/assets/images/sun_outlined.png"),
+                                      width: 20,
+                                      height: 20,
+                                    );
+                                  }
+                                },
                                 separatorBuilder: (context, index) =>
                                     SizedBox(width: 4),
                                 itemCount: 6),
@@ -519,6 +567,51 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
       ),
     );
   }
+
+  Widget _isPlantGrownWidget(PlantData plant) {
+    switch (isPlantGrown(plant)) {
+      case (IsPlantGrown.grown):
+        {
+          return InformationCard(
+            title: "Grown In Your Country",
+            iconData: Icons.eco_outlined,
+            mono: true,
+          );
+        }
+      case (IsPlantGrown.notGrown):
+        {
+          return InformationCard(
+            title: "Not Grown In Your Country",
+            iconData: Icons.eco_outlined,
+            mono: true,
+            customBackgroundColor: ColorPalette.complementaryColor,
+          );
+        }
+      default:
+        return Container();
+    }
+  }
+
+  Color _colorBySeason(Seasons season) {
+    switch (season) {
+      case Seasons.harvesting:
+        {
+          return ColorPalette.complementaryColor;
+        }
+      case Seasons.growing:
+        {
+          return ColorPalette.mediumColor;
+        }
+      case Seasons.planting:
+        {
+          return ColorPalette.primaryColor;
+        }
+      case Seasons.resting:
+        {
+          return ColorPalette.secondaryGreyColor;
+        }
+    }
+  }
 }
 
 class InformationCard extends StatelessWidget {
@@ -527,11 +620,13 @@ class InformationCard extends StatelessWidget {
       required this.title,
       this.subtitle,
       required this.iconData,
-      required this.mono});
+      required this.mono,
+      this.customBackgroundColor});
   final String title;
   final String? subtitle;
   final IconData iconData;
   final bool mono;
+  final Color? customBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -552,7 +647,8 @@ class InformationCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: _backgroundColor, borderRadius: BorderRadius.circular(15)),
+            color: customBackgroundColor ?? _backgroundColor,
+            borderRadius: BorderRadius.circular(15)),
         child: AspectRatio(
           aspectRatio: 1.0,
           child: Column(
@@ -1015,4 +1111,82 @@ class NeededLightDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+class MyArc extends StatelessWidget {
+  final double diameter;
+  final Color leftSideColor;
+  final Color rightSideColor;
+  const MyArc(
+      {super.key,
+      required this.diameter,
+      required this.leftSideColor,
+      required this.rightSideColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        CustomPaint(
+          painter: LeftHalfPainter(leftSideColor),
+          size: Size(diameter, diameter),
+        ),
+        CustomPaint(
+          painter: RightHalfPainter(rightSideColor),
+          size: Size(diameter, diameter),
+        ),
+      ],
+    );
+  }
+}
+
+// This is the Painter class
+class LeftHalfPainter extends CustomPainter {
+  final Color color;
+
+  LeftHalfPainter(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = color;
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(size.height / 2, size.width / 2),
+        height: size.height,
+        width: size.width,
+      ),
+      math.pi / 2,
+      math.pi,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class RightHalfPainter extends CustomPainter {
+  final Color color;
+
+  RightHalfPainter(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = color;
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(size.height / 2, size.width / 2),
+        height: size.height,
+        width: size.width,
+      ),
+      math.pi * 1.5,
+      math.pi,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

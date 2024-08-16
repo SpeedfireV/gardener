@@ -11,6 +11,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SortingDirection sortingDirection;
   List<PlantData> plants;
   bool sorted;
+  String? expanded;
   SearchBloc(this.query, this.filter, this.plants, this.sortingDirection,
       {this.sorted = true})
       : super(SearchInitial()) {
@@ -22,35 +23,34 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(SearchError(e.toString()));
       }
     });
-    on<FilterChanged>((event, emit) {
+    on<SearchFilterChanged>((event, emit) {
+      emit(SearchFiltering());
       filter = event.filter;
       emit(SearchFiltered(filterPlants()));
     });
-    on<SortingChanged>((event, emit) {
+    on<SearchSortingChanged>((event, emit) {
+      emit(SearchSorting());
       sorted = false;
       sortingDirection = event.sortingDirection;
+      emit(SearchFiltered(filterPlants()));
+    });
+    on<SearchCardClicked>((event, emit) {
+      emit(SearchCardExpanding());
+      if (expanded == event.latin) {
+        // Card collapse on second click
+        expanded = null;
+      } else {
+        expanded = event.latin;
+      }
       emit(SearchFiltered(filterPlants()));
     });
   }
 
   Iterable<PlantData> filterPlants() {
-    List<PlantData> filteredPlants = plants;
-    if (filter != PlantType.all) {
-      filteredPlants = filteredPlants
-          .where((PlantData plant) => plant.type == filter)
-          .toList();
-    }
-    if (query != "") {
-      filteredPlants = filteredPlants
-          .where((PlantData plant) =>
-              plant.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
     if (!sorted) {
-      print("Sorting Begins");
-      print("BEFORE: $filteredPlants");
+      print("BEFORE: $plants");
 
-      filteredPlants.sort((PlantData a, PlantData b) {
+      plants.sort((PlantData a, PlantData b) {
         if (sortingDirection == SortingDirection.ascending) {
           return a.name
               .toLowerCase()
@@ -63,8 +63,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               .compareTo(a.name.toLowerCase().codeUnitAt(0));
         }
       });
-      print("AFTER: $filteredPlants");
+      print("AFTER: $plants");
       sorted = true;
+    }
+    List<PlantData> filteredPlants = plants;
+    if (filter != PlantType.all) {
+      filteredPlants = filteredPlants
+          .where((PlantData plant) => plant.type == filter)
+          .toList();
+    }
+    if (query != "") {
+      filteredPlants = filteredPlants
+          .where((PlantData plant) =>
+              plant.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
     }
 
     return filteredPlants;

@@ -9,16 +9,22 @@ class SearchQueryChanged extends SearchEvent {
   SearchQueryChanged(this.query);
 }
 
-class FilterChanged extends SearchEvent {
+class SearchFilterChanged extends SearchEvent {
   final PlantType filter;
 
-  FilterChanged(this.filter);
+  SearchFilterChanged(this.filter);
 }
 
-class SortingChanged extends SearchEvent {
+class SearchSortingChanged extends SearchEvent {
   final SortingDirection sortingDirection;
 
-  SortingChanged(this.sortingDirection);
+  SearchSortingChanged(this.sortingDirection);
+}
+
+class SearchCardClicked extends SearchEvent {
+  final String latin;
+
+  SearchCardClicked(this.latin);
 }
 
 enum SortingDirection { ascending, descending }
