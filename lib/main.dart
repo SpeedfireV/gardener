@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
+import 'package:gardener/bloc/search_for_companions/potential_companions_bloc.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
 import 'package:gardener/services/firestore.dart';
@@ -19,6 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirestoreService().getPlants();
+  await dotenv.load(fileName: ".env");
 
   runApp(
     MultiBlocProvider(
@@ -28,8 +31,10 @@ void main() async {
             create: (context) =>
                 SearchBloc("", PlantType.all, [], SortingDirection.ascending)),
         BlocProvider(
-            create: (context) => PlantsListBloc(
-                "", PlantType.all, [], SortingDirection.ascending, []))
+          create: (context) => PlantsListBloc(
+              "", PlantType.all, [], SortingDirection.ascending, []),
+        ),
+        BlocProvider(create: (context) => PotentialCompanionsBloc())
       ],
       child: MyApp(),
     ),

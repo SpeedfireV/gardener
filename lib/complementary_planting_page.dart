@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
 import 'package:gardener/plant_info_page.dart';
+import 'package:gardener/search_for_companions_page.dart';
 import 'package:gardener/utils/formatting.dart';
 import 'package:gardener/utils/location.dart';
 
@@ -504,7 +505,8 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                   }
                   return const CircularProgressIndicator();
                 },
-              )
+              ),
+              SizedBox(height: 100)
             ],
           ),
           Padding(
@@ -513,38 +515,56 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
               alignment: Alignment.bottomCenter,
               child: BlocBuilder<PlantsListBloc, PlantsListState>(
                 builder: (context, plantsListState) {
-                  CombinationStatus? combinationStatus =
-                      context.read<PlantsListBloc>().combinationStatus;
-                  Color combinationColor =
-                      combinationStatusToColor(combinationStatus);
+                  bool? plantsSelected;
+                  Iterable<PlantData> selectedPlants = [];
+                  if (plantsListState is PlantsListLoaded) {
+                    plantsSelected = plantsListState.selectedPlants.length > 0;
+                    selectedPlants = plantsListState.selectedPlants;
+                  }
                   return Row(
                     children: [
                       Expanded(
                           child: SizedBox(
                         height: 56,
                         child: Material(
-                          elevation: 5,
+                          elevation: plantsSelected == true ? 5 : 0,
                           borderRadius: BorderRadius.circular(15),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 8),
-                              Icon(
-                                combinationStatusToIconData(combinationStatus),
-                                size: 40,
-                                color: combinationColor,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                combinationStatus != null
-                                    ? combinationStatusToString(
-                                        combinationStatus)
-                                    : "Nothing Selected",
-                                style: TextStyle(
+                          child: InkWell(
+                            onTap: plantsSelected == true
+                                ? () {
+                                    print("Search For Companions Tapped");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SearchForCompanionsPage(
+                                                    plants: selectedPlants)));
+                                  }
+                                : null,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.search,
+                                  size: 40,
+                                  color: plantsSelected == true
+                                      ? ColorPalette.primaryColor
+                                      : ColorPalette.disabledColor,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  "Search For Companions",
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w900,
-                                    color: combinationColor),
-                              )
-                            ],
+                                    color: plantsSelected == true
+                                        ? ColorPalette.primaryColor
+                                        : ColorPalette.disabledColor,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       )),
