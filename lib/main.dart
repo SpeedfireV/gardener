@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
-import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/services/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'bloc/plants_handbook_page/firestore_bloc.dart';
 import 'bloc/plants_handbook_page/search_bloc.dart';
+import 'constants/enums.dart';
 import 'firebase_options.dart';
 
 void main() async {

@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gardener/models/plant_data.dart';
 
+import '../../constants/enums.dart';
+
 part 'search_event.dart';
 part 'search_state.dart';
 
@@ -48,8 +50,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Iterable<PlantData> filterPlants() {
     if (!sorted) {
-      print("BEFORE: $plants");
-
       plants.sort((PlantData a, PlantData b) {
         if (sortingDirection == SortingDirection.ascending) {
           return a.name
@@ -63,7 +63,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               .compareTo(a.name.toLowerCase().codeUnitAt(0));
         }
       });
-      print("AFTER: $plants");
       sorted = true;
     }
     List<PlantData> filteredPlants = plants;

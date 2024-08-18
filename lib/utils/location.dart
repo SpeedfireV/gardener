@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import '../constants/enums.dart';
 import '../models/plant_data.dart';
 
 String? getCountryCode() {
@@ -26,5 +27,3 @@ IsPlantGrown isPlantGrown(PlantData plant) {
   }
   return grownInUserCountry;
 }
-
-enum IsPlantGrown { grown, notGrown, unknown }

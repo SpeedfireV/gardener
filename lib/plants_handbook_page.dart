@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
+import 'package:gardener/utils/formatting.dart';
 import 'package:gardener/utils/location.dart';
 
 import 'bloc/plants_handbook_page/firestore_bloc.dart';
 import 'bloc/plants_handbook_page/search_bloc.dart';
 import 'constants/colors.dart';
+import 'constants/enums.dart';
 import 'drawer.dart';
 
 class PlantsHandbookPage extends StatefulWidget {
@@ -24,7 +26,9 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
   void initState() {
     super.initState();
     // Dispatch the event here, after the Bloc has been provided
+
     BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
+
     searchController = TextEditingController();
   }
 
@@ -179,8 +183,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   builder: (context, searchState) {
                     if (searchState is SearchFiltered) {
                       Map<String, List<PlantData>> plantsByLetters =
-                          _dividePlantsByFirstLetter(
-                              searchState.filteredPlants);
+                          dividePlantsByFirstLetter(searchState.filteredPlants);
                       Iterable<String> letters = plantsByLetters.keys;
                       return ListView.builder(
                           shrinkWrap: true,
@@ -278,6 +281,12 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                           color: ColorPalette
                                                               .primaryColor,
                                                           child: IconButton(
+                                                            style: IconButton
+                                                                .styleFrom(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                            ),
                                                             onPressed: () {
                                                               debugPrint(
                                                                   "Plant Info Tapped");
@@ -291,7 +300,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                             icon: const Icon(
                                                               Icons
                                                                   .arrow_forward_ios_rounded,
-                                                              size: 24,
+                                                              size: 28,
                                                               color: ColorPalette
                                                                   .cardColor,
                                                             ),
@@ -595,20 +604,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                         },
                       )),
             ));
-  }
-
-  Map<String, List<PlantData>> _dividePlantsByFirstLetter(
-      Iterable<PlantData> plants) {
-    Map<String, List<PlantData>> dividedPlants = {};
-    for (PlantData plantData in plants) {
-      String firstLetter = plantData.name.substring(0, 1);
-      if (dividedPlants.containsKey(firstLetter)) {
-        dividedPlants[firstLetter]!.add(plantData);
-      } else {
-        dividedPlants[firstLetter] = [plantData];
-      }
-    }
-    return dividedPlants;
   }
 
   Widget _grownInCountryWidget(PlantData plant) {

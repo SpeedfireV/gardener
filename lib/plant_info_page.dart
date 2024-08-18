@@ -7,6 +7,7 @@ import 'package:gardener/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'constants/colors.dart';
+import 'constants/enums.dart';
 import 'constants/styles.dart';
 
 class PlantInfoPage extends StatefulWidget {
