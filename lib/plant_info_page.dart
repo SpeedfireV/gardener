@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:gardener/models/plant_data.dart';
+import 'package:gardener/utils/formatting.dart';
 import 'package:gardener/utils/location.dart';
 import 'package:gardener/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -121,8 +122,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
             children: [
               InformationCard(
                   title: "Growing Time",
-                  subtitle:
-                      "${widget.plantData.growingTime.min.toInt()}-${widget.plantData.growingTime.max.toInt()} weeks",
+                  subtitle: growingTimeToString(widget.plantData.growingTime),
                   iconData: Icons.schedule,
                   mono: false),
               _isPlantGrownWidget(widget.plantData),

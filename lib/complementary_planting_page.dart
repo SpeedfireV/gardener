@@ -2,6 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
+import 'package:gardener/constants/styles.dart';
 import 'package:gardener/plant_info_page.dart';
 import 'package:gardener/search_for_companions_page.dart';
 import 'package:gardener/utils/formatting.dart';
@@ -592,7 +593,72 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                             color: ColorPalette.cardColor, // Background color
                             child: IconButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 16.0, horizontal: 16),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                "Selected Plants",
+                                                style:
+                                                    TextStyles.dialogTitleStyle,
+                                              ),
+                                              SizedBox(height: 16),
+                                              ListView.separated(
+                                                shrinkWrap: true,
+                                                itemCount: BlocProvider.of<
+                                                        PlantsListBloc>(context)
+                                                    .selectedPlants
+                                                    .length,
+                                                itemBuilder: (context, index) {
+                                                  return Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(BlocProvider.of<
+                                                                  PlantsListBloc>(
+                                                              context)
+                                                          .selectedPlants
+                                                          .elementAt(index)
+                                                          .name),
+                                                    ],
+                                                  );
+                                                },
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(height: 8);
+                                                },
+                                              ),
+                                              SizedBox(height: 16),
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                      foregroundColor:
+                                                          ColorPalette
+                                                              .deleteColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15))),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Close"))
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
                               },
                               style: IconButton.styleFrom(
                                   padding: EdgeInsets.zero,
