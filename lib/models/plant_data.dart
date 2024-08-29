@@ -1,11 +1,13 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../constants/enums.dart';
 import 'min_max_values.dart';
 
 part "plant_data.g.dart";
 
 @JsonSerializable()
-class PlantData {
+class PlantData extends Equatable {
   final String name;
   final String latin;
   final PlantType type;
@@ -35,6 +37,24 @@ class PlantData {
       this.neededLight,
       this.howToPlant,
       this.soilDetails);
+
+  @override
+  List<Object> get props => [
+        name,
+        latin,
+        type,
+        description,
+        growingTime,
+        countries,
+        optimalTemp,
+        growingDifficulty,
+        airHumidity,
+        seasons,
+        neededWater,
+        neededLight,
+        howToPlant,
+        soilDetails
+      ];
 
   factory PlantData.fromJson(Map<String, dynamic> json) {
     try {
@@ -73,10 +93,6 @@ class PlantData {
     return name;
   }
 }
-
-enum Seasons { planting, growing, harvesting, resting }
-
-enum PlantType { all, vegetable, fruit }
 
 String? plantTypeToString(PlantType plantType) {
   switch (plantType) {

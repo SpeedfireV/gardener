@@ -7,6 +7,10 @@ class TextStyles {
       fontSize: 18,
       fontWeight: FontWeight.w900,
       color: ColorPalette.primaryTextColor);
+  static TextStyle titleTextStyle = const TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w900,
+      color: ColorPalette.primaryTextColor);
 }
 
 class Paddings {

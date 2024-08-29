@@ -26,5 +26,3 @@ class SearchCardClicked extends SearchEvent {
 
   SearchCardClicked(this.latin);
 }
-
-enum SortingDirection { ascending, descending }

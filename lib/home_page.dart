@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/drawer.dart';
-import 'package:gardener/models/min_max_values.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
+import 'package:gardener/utils/formatting.dart';
+import 'package:shimmer/shimmer.dart';
 
+import 'bloc/home_page/in_season_cubit.dart';
 import 'constants/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +18,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<InSeasonCubit>(context).loadSeasonPlants();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +33,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: ColorPalette.backgroundColor,
       body: ListView(
         children: [
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 SizedBox(
@@ -43,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                       style: IconButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15))),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.menu_rounded,
                         size: 40,
                         color: ColorPalette.primaryTextColor, // Icon color
@@ -51,23 +61,23 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                     child: SearchBar(
                   hintText: "How can I help You?",
                   backgroundColor:
                       WidgetStateProperty.all(ColorPalette.cardColor),
-                  hintStyle: WidgetStateProperty.all(TextStyle(
+                  hintStyle: WidgetStateProperty.all(const TextStyle(
                       fontSize: 14, color: ColorPalette.primaryTextColor)),
-                  leading: Icon(Icons.search),
+                  leading: const Icon(Icons.search),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15))),
                 )),
               ],
             ),
           ),
-          SizedBox(height: 32),
-          Padding(
+          const SizedBox(height: 32),
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "In Season",
@@ -77,33 +87,77 @@ class _HomePageState extends State<HomePage> {
                   color: ColorPalette.primaryTextColor),
             ),
           ),
-          SizedBox(height: 8),
-          GridView(
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12),
-            children: [PlantInfoCard()],
+          const SizedBox(height: 8),
+          BlocBuilder<InSeasonCubit, InSeasonState>(
+            builder: (context, state) {
+              if (state is InSeasonLoading) {
+                return GridView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12),
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else if (state is InSeasonLoaded) {
+                Iterable<PlantData> plants = state.plants;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: plants.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12),
+                  itemBuilder: (context, index) {
+                    return PlantInfoCard(plantData: plants.elementAt(index));
+                  },
+                );
+              }
+              return const Text("Other State");
+            },
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
                 style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15))),
                 iconAlignment: IconAlignment.end,
                 onPressed: () {
                   debugPrint("Garden Data Clicked");
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: ColorPalette.primaryTextColor,
                 ),
-                label: Text(
+                label: const Text(
                   "Garden Data",
                   style: TextStyle(
                       fontSize: 24,
@@ -113,13 +167,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           GridView(
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12),
-            children: [
+            children: const [
               Material(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -147,7 +201,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class PlantInfoCard extends StatefulWidget {
-  const PlantInfoCard({super.key});
+  const PlantInfoCard({super.key, required this.plantData});
+  final PlantData plantData;
 
   @override
   State<PlantInfoCard> createState() => _PlantInfoCardState();
@@ -162,25 +217,11 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
       child: InkWell(
         onTap: () {
           debugPrint("Plant Info Card Clicked");
-          PlantData _plantData = PlantData(
-              "name",
-              "latin",
-              PlantType.all,
-              "description",
-              MinMaxValues(2, 4),
-              {"pl": true},
-              MinMaxValues(25, 34),
-              4,
-              MinMaxValues(45, 85),
-              [Seasons.growing, Seasons.growing],
-              3,
-              4,
-              "howToPlant",
-              "soilDet");
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PlantInfoPage(plantData: _plantData)));
+                  builder: (context) =>
+                      PlantInfoPage(plantData: widget.plantData)));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -195,18 +236,18 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tomatoes",
-                        style: TextStyle(
+                        widget.plantData.name,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       Text(
-                        "Vegetable",
-                        style: TextStyle(
+                        widget.plantData.type.name,
+                        style: const TextStyle(
                             fontSize: 10, fontWeight: FontWeight.w400),
                       ),
                       Text(
-                        "Solanum lycopersicum",
-                        style: TextStyle(
+                        widget.plantData.latin,
+                        style: const TextStyle(
                             fontSize: 10, fontWeight: FontWeight.w300),
                       )
                     ],
@@ -221,26 +262,25 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Growing Time",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: ColorPalette.primaryTextColor),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Row(
                           children: [
                             // TODO: Time Icons
-                            for (int i = 0; i < 4; i++)
-                              Icon(
-                                Icons.schedule,
-                                color: ColorPalette.primaryColor,
-                              ),
-                            SizedBox(width: 4),
+                            const Icon(
+                              Icons.schedule,
+                              color: ColorPalette.primaryColor,
+                            ),
+                            const SizedBox(width: 4),
                             Text(
-                              "7-9 weeks",
-                              style: TextStyle(
+                              growingTimeToString(widget.plantData.growingTime),
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w400),
                             )
                           ],
@@ -250,25 +290,30 @@ class _PlantInfoCardState extends State<PlantInfoCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Growing Difficulty",
+                        const Text("Growing Difficulty",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: ColorPalette.primaryTextColor)),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         SizedBox(
                           height: 24,
                           child: ListView.separated(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => Image(
-                                    image: AssetImage(
-                                        "lib/assets/images/leaf.png"),
-                                    width: 24,
-                                    height: 24,
-                                  ),
+                              itemBuilder: (context, index) {
+                                bool active =
+                                    index < widget.plantData.growingDifficulty;
+                                return Image(
+                                  image: AssetImage(active
+                                      ? "lib/assets/images/leaf.png"
+                                      : "lib/assets/images/leaf_outlined.png"),
+                                  width: 24,
+                                  height: 24,
+                                );
+                              },
                               separatorBuilder: (context, index) =>
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                               itemCount: 6),
                         ),
                       ],

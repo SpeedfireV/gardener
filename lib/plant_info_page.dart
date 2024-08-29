@@ -2,11 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:gardener/models/plant_data.dart';
+import 'package:gardener/utils/formatting.dart';
 import 'package:gardener/utils/location.dart';
 import 'package:gardener/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'constants/colors.dart';
+import 'constants/enums.dart';
 import 'constants/styles.dart';
 
 class PlantInfoPage extends StatefulWidget {
@@ -120,15 +122,16 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
             children: [
               InformationCard(
                   title: "Growing Time",
-                  subtitle:
-                      "${widget.plantData.growingTime.min.toInt()}-${widget.plantData.growingTime.max.toInt()} weeks",
+                  subtitle: growingTimeToString(widget.plantData.growingTime),
                   iconData: Icons.schedule,
                   mono: false),
+              const SizedBox(width: 12),
               _isPlantGrownWidget(widget.plantData),
               const SizedBox(width: 12),
-              const InformationCard(
+              InformationCard(
                   title: "Optimal Temp",
-                  subtitle: "21-27°C",
+                  subtitle:
+                      "${widget.plantData.optimalTemp.min}-${widget.plantData.optimalTemp.max}°C",
                   iconData: Icons.device_thermostat,
                   mono: false),
             ],
@@ -593,15 +596,10 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
     switch (isPlantGrown(plant)) {
       case (IsPlantGrown.grown):
         {
-          return const Row(
-            children: [
-              SizedBox(width: 12),
-              InformationCard(
-                title: "Grown In Your Country",
-                iconData: Icons.eco_outlined,
-                mono: true,
-              ),
-            ],
+          return InformationCard(
+            title: "Grown In Your Country",
+            iconData: Icons.eco_outlined,
+            mono: true,
           );
         }
       case (IsPlantGrown.notGrown):

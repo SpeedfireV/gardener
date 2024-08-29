@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import '../constants/enums.dart';
 import '../models/plant_data.dart';
 
 String? getCountryCode() {
@@ -10,7 +11,8 @@ IsPlantGrown isPlantGrown(PlantData plant) {
   IsPlantGrown? grownInUserCountry;
   String? userCountryCode = getCountryCode();
   if (userCountryCode != null) {
-    if (plant.countries.containsKey(userCountryCode)) {
+    if (plant.countries.containsKey(userCountryCode.toLowerCase()) ||
+        plant.countries.containsKey(userCountryCode.toUpperCase())) {
       if (plant.countries[userCountryCode] == true) {
         grownInUserCountry = IsPlantGrown.grown;
       } else if (plant.countries[userCountryCode] == false) {
@@ -26,5 +28,3 @@ IsPlantGrown isPlantGrown(PlantData plant) {
   }
   return grownInUserCountry;
 }
-
-enum IsPlantGrown { grown, notGrown, unknown }
