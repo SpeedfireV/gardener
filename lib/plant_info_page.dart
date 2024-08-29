@@ -128,9 +128,10 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
               const SizedBox(width: 12),
               _isPlantGrownWidget(widget.plantData),
               const SizedBox(width: 12),
-              const InformationCard(
+              InformationCard(
                   title: "Optimal Temp",
-                  subtitle: "21-27°C",
+                  subtitle:
+                      "${widget.plantData.optimalTemp.min}-${widget.plantData.optimalTemp.max}°C",
                   iconData: Icons.device_thermostat,
                   mono: false),
             ],

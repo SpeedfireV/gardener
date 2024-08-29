@@ -21,6 +21,6 @@ class InSeasonCubit extends Cubit<InSeasonState> {
             plant.seasons.elementAt(currentSeason) == Seasons.growing ||
             plant.seasons.elementAt(currentSeason) == Seasons.planting)
         .toList()
-        .sublist(0, 1)));
+        .sublist(0, 2)));
   }
 }

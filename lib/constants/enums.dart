@@ -5,7 +5,7 @@ enum SortingDirection { ascending, descending }
 
 enum Seasons { planting, growing, harvesting, resting }
 
-enum PlantType { all, vegetable, fruit }
+enum PlantType { all, vegetable, fruit, herb }
 
 enum IsPlantGrown { grown, notGrown, unknown }
 

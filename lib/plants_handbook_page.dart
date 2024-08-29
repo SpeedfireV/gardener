@@ -437,7 +437,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                       separatorBuilder: (context, index) =>
                                           const SizedBox(height: 8),
                                       itemCount: plantsByLetters[currentLetter]!
-                                          .length)
+                                          .length),
+                                  SizedBox(height: 40)
                                 ],
                               ),
                             );
@@ -446,7 +447,38 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                     } else if (searchState is SearchError) {
                       return const Text("Error occured while filtering");
                     }
-                    return const Text("Different Bloc State");
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[50]!,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[50]!,
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
                   },
                 );
               } else if (firestoreState is PlantsLoading) {
