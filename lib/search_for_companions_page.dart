@@ -4,6 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gardener/bloc/search_for_companions/potential_companions_bloc.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/constants/styles.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'models/plant_data.dart';
 
@@ -109,7 +110,38 @@ class _SearchForCompanionsPageState extends State<SearchForCompanionsPage> {
                       );
                     } else if (state
                         is PotentialCompanionsSearchingForCompanions) {
-                      return CircularProgressIndicator();
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[50]!,
+                            child: Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[50]!,
+                            child: Container(
+                              width: double.infinity,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
                     } else {
                       return Text("Other State");
                     }

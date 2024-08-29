@@ -4,6 +4,7 @@ import 'package:gardener/drawer.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
 import 'package:gardener/utils/formatting.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'bloc/home_page/in_season_cubit.dart';
 import 'constants/colors.dart';
@@ -90,7 +91,36 @@ class _HomePageState extends State<HomePage> {
           BlocBuilder<InSeasonCubit, InSeasonState>(
             builder: (context, state) {
               if (state is InSeasonLoading) {
-                return const Text("Loading");
+                return GridView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12),
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
               } else if (state is InSeasonLoaded) {
                 Iterable<PlantData> plants = state.plants;
                 return GridView.builder(

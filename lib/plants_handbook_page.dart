@@ -4,6 +4,7 @@ import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
 import 'package:gardener/utils/formatting.dart';
 import 'package:gardener/utils/location.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'bloc/plants_handbook_page/firestore_bloc.dart';
 import 'bloc/plants_handbook_page/search_bloc.dart';
@@ -193,6 +194,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                 letters.elementAt(letterIndex);
                             String? expandedCard =
                                 context.read<SearchBloc>().expanded;
+
                             return Padding(
                               padding: const EdgeInsets.only(top: 16.0),
                               child: Column(
@@ -448,7 +450,38 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   },
                 );
               } else if (firestoreState is PlantsLoading) {
-                return const CircularProgressIndicator();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
               } else if (firestoreState is PlantsError) {
                 return const Text("Error loading data");
               }

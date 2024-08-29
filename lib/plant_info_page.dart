@@ -125,6 +125,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   subtitle: growingTimeToString(widget.plantData.growingTime),
                   iconData: Icons.schedule,
                   mono: false),
+              const SizedBox(width: 12),
               _isPlantGrownWidget(widget.plantData),
               const SizedBox(width: 12),
               const InformationCard(
@@ -594,15 +595,10 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
     switch (isPlantGrown(plant)) {
       case (IsPlantGrown.grown):
         {
-          return const Row(
-            children: [
-              SizedBox(width: 12),
-              InformationCard(
-                title: "Grown In Your Country",
-                iconData: Icons.eco_outlined,
-                mono: true,
-              ),
-            ],
+          return InformationCard(
+            title: "Grown In Your Country",
+            iconData: Icons.eco_outlined,
+            mono: true,
           );
         }
       case (IsPlantGrown.notGrown):
