@@ -87,18 +87,15 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                 fontWeight: FontWeight.w900,
                 color: ColorPalette.primaryTextColor),
           ),
-          plantTypeToString(widget.plantData.type) != null
-              ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const SizedBox(height: 4),
-                  Text(
-                    plantTypeToString(widget.plantData.type)!,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: ColorPalette.primaryTextColor),
-                  ),
-                ])
-              : Container(),
+           const SizedBox(height: 4),
+           Text(
+             widget.plantData.type.name,
+             style: const TextStyle(
+                 fontSize: 14,
+                 fontWeight: FontWeight.w400,
+                 color: ColorPalette.primaryTextColor),
+           )
+           ,
           const SizedBox(height: 4),
           Text(
             widget.plantData.latin,

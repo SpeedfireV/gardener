@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
                 return GridView(
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
@@ -127,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   itemCount: plants.length,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
@@ -173,6 +175,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12),
+            physics: NeverScrollableScrollPhysics(),
             children: const [
               Material(
                 child: Column(

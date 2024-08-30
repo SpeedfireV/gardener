@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gardener/bloc/complementary_planting_page/plants_list_bloc.dart';
 import 'package:gardener/bloc/home_page/in_season_cubit.dart';
+import 'package:gardener/bloc/plants_handbook_page/scroll_cubit.dart';
 import 'package:gardener/bloc/search_for_companions/potential_companions_bloc.dart';
 import 'package:gardener/constants/colors.dart';
 import 'package:gardener/home_page.dart';
@@ -36,7 +37,8 @@ void main() async {
               "", PlantType.all, [], SortingDirection.ascending, []),
         ),
         BlocProvider(create: (context) => PotentialCompanionsBloc()),
-        BlocProvider(create: (context) => InSeasonCubit())
+        BlocProvider(create: (context) => InSeasonCubit()),
+        BlocProvider(create: (context) => ScrollCubit())
       ],
       child: MyApp(),
     ),

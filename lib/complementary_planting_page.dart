@@ -531,8 +531,37 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                       },
                     );
                   } else if (firestoreState is PlantsLoading) {
-                    return const CircularProgressIndicator(
-                      color: Colors.red,
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[50]!,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[50]!,
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   } else if (firestoreState is PlantsError) {
                     return const Text("Error loading data");

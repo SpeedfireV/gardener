@@ -10,8 +10,11 @@ String? getCountryCode() {
 IsPlantGrown isPlantGrown(PlantData plant) {
   IsPlantGrown? grownInUserCountry;
   String? userCountryCode = getCountryCode();
+
+  print(userCountryCode);
+  print(plant.countries);
   if (userCountryCode != null) {
-    if (plant.countries.containsKey(userCountryCode.toLowerCase()) ||
+    if (
         plant.countries.containsKey(userCountryCode.toUpperCase())) {
       if (plant.countries[userCountryCode] == true) {
         grownInUserCountry = IsPlantGrown.grown;
