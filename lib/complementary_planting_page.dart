@@ -66,7 +66,7 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15))),
                         icon: const Icon(
-                          Icons.arrow_back_ios_rounded,
+                          Icons.menu_rounded,
                           size: 40,
                           color: ColorPalette.primaryTextColor, // Icon color
                         ),
@@ -81,7 +81,10 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                     onTapOutside: (pointer) {
                       FocusScope.of(context).requestFocus(FocusNode());
                     },
-                    onChanged: (query) {},
+                    onChanged: (query) {
+                      BlocProvider.of<PlantsListBloc>(context)
+                          .add(PlantsListSearchQueryChanged(query));
+                    },
                     backgroundColor:
                         WidgetStateProperty.all(ColorPalette.cardColor),
                     hintStyle: WidgetStateProperty.all(const TextStyle(
@@ -107,7 +110,7 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                           child: InkWell(
                             onTap: () {
                               debugPrint("Filter Tapped");
-                              _showFiltersDialog(context);
+                              _showFiltersBottomSheet(context);
                             },
                             child: Padding(
                                 padding:
@@ -424,7 +427,7 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                                                                             text:
                                                                                 TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
                                                                               TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
-                                                                              TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
+                                                                              TextSpan(text: "${growingTimeToString(plant.growingTime)}")
                                                                             ]),
                                                                           ),
                                                                         ],
@@ -654,74 +657,7 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                             borderRadius: BorderRadius.circular(15),
                             color: ColorPalette.cardColor, // Background color
                             child: IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 16.0, horizontal: 16),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                "Selected Plants",
-                                                style:
-                                                    TextStyles.dialogTitleStyle,
-                                              ),
-                                              SizedBox(height: 16),
-                                              ListView.separated(
-                                                shrinkWrap: true,
-                                                itemCount: BlocProvider.of<
-                                                        PlantsListBloc>(context)
-                                                    .selectedPlants
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  return Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(BlocProvider.of<
-                                                                  PlantsListBloc>(
-                                                              context)
-                                                          .selectedPlants
-                                                          .elementAt(index)
-                                                          .name),
-                                                    ],
-                                                  );
-                                                },
-                                                separatorBuilder:
-                                                    (context, index) {
-                                                  return SizedBox(height: 8);
-                                                },
-                                              ),
-                                              SizedBox(height: 16),
-                                              TextButton(
-                                                  style: TextButton.styleFrom(
-                                                      foregroundColor:
-                                                          ColorPalette
-                                                              .deleteColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15))),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text("Close"))
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              },
+                              onPressed: _showSelectedPlantsDialog,
                               style: IconButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
@@ -747,7 +683,62 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
     ));
   }
 
-  _showFiltersDialog(BuildContext globalContext) {
+  _showSelectedPlantsDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Selected Plants",
+                    style: TextStyles.dialogTitleStyle,
+                  ),
+                  SizedBox(height: 16),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: BlocProvider.of<PlantsListBloc>(context)
+                        .selectedPlants
+                        .length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(BlocProvider.of<PlantsListBloc>(context)
+                              .selectedPlants
+                              .elementAt(index)
+                              .name),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 8);
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: ColorPalette.deleteColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Close"))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showFiltersBottomSheet(BuildContext globalContext) {
     showModalBottomSheet(
         context: context,
         builder: (context) => BlocProvider.value(
@@ -785,36 +776,25 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                                 ],
                               ),
                               const SizedBox(height: 8),
-                              RadioMenuButton(
-                                  value: PlantType.all,
-                                  groupValue:
-                                      context.read<PlantsListBloc>().filter,
-                                  onChanged: (PlantType? newFilter) {
-                                    print("Set New Filter: $newFilter");
-                                    context.read<PlantsListBloc>().add(
-                                        PlantsListFilterChanged(newFilter!));
-                                  },
-                                  child: const Text("All")),
-                              RadioMenuButton(
-                                  value: PlantType.vegetable,
-                                  groupValue:
-                                      context.read<PlantsListBloc>().filter,
-                                  onChanged: (PlantType? newFilter) {
-                                    print("Set New Filter: $newFilter");
-                                    context.read<PlantsListBloc>().add(
-                                        PlantsListFilterChanged(newFilter!));
-                                  },
-                                  child: const Text("Vegetables")),
-                              RadioMenuButton(
-                                  value: PlantType.fruit,
-                                  groupValue:
-                                      context.read<PlantsListBloc>().filter,
-                                  onChanged: (PlantType? newFilter) {
-                                    print("Set New Filter: $newFilter");
-                                    context.read<PlantsListBloc>().add(
-                                        PlantsListFilterChanged(newFilter!));
-                                  },
-                                  child: const Text("Fruits"))
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: PlantType.values.length,
+                                  itemBuilder: (context, index) {
+                                    PlantType plantType =
+                                        PlantType.values.elementAt(index);
+                                    return RadioMenuButton(
+                                        value: plantType,
+                                        groupValue: context
+                                            .read<PlantsListBloc>()
+                                            .filter,
+                                        onChanged: (PlantType? newFilter) {
+                                          print("Set New Filter: $newFilter");
+                                          context.read<PlantsListBloc>().add(
+                                              PlantsListFilterChanged(
+                                                  newFilter!));
+                                        },
+                                        child: Text(plantType.name));
+                                  }),
                             ],
                           );
                         },

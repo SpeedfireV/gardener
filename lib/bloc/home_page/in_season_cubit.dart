@@ -16,11 +16,17 @@ class InSeasonCubit extends Cubit<InSeasonState> {
     List<PlantData> plants = await FirestoreService().getPlants().first;
     int currentSeason = DateTime.now().month * 2 + DateTime.now().day ~/ 15;
     print(currentSeason);
-    emit(InSeasonLoaded(plants
+    Iterable<PlantData> filteredPlants = plants
         .where((PlantData plant) =>
             plant.seasons.elementAt(currentSeason) == Seasons.growing ||
             plant.seasons.elementAt(currentSeason) == Seasons.planting)
-        .toList()
-        .sublist(0, 2)));
+        .toList();
+    if (filteredPlants.length > 2) {
+      filteredPlants = [
+        filteredPlants.elementAt(0),
+        filteredPlants.elementAt(1)
+      ];
+    }
+    emit(InSeasonLoaded(filteredPlants));
   }
 }

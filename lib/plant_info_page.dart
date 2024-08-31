@@ -65,37 +65,29 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: ColorPalette.cardColor,
-                    borderRadius: BorderRadius.circular(15)),
-                child: const Image(
-                  image: AssetImage("lib/assets/images/tomato.png"),
-                  width: 40,
-                  height: 40,
-                ),
+              Text(
+                widget.plantData.name,
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    color: ColorPalette.primaryTextColor),
               ),
-              const SizedBox(width: 56)
+              const SizedBox(width: 56),
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            widget.plantData.name,
-            style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-                color: ColorPalette.primaryTextColor),
-          ),
-           const SizedBox(height: 4),
-           Text(
-             widget.plantData.type.name,
-             style: const TextStyle(
-                 fontSize: 14,
-                 fontWeight: FontWeight.w400,
-                 color: ColorPalette.primaryTextColor),
-           )
-           ,
+          plantTypeToString(widget.plantData.type) != null
+              ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const SizedBox(height: 4),
+                  Text(
+                    plantTypeToString(widget.plantData.type)!,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: ColorPalette.primaryTextColor),
+                  ),
+                ])
+              : Container(),
           const SizedBox(height: 4),
           Text(
             widget.plantData.latin,

@@ -35,8 +35,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     searchController = TextEditingController();
     scrollController = ScrollController();
     scrollController.addListener(() {
-      print(scrollController.offset);
-      BlocProvider.of<ScrollCubit>(context).checkOffset(scrollController.offset);
+      BlocProvider.of<ScrollCubit>(context)
+          .checkOffset(scrollController.offset);
     });
   }
 
@@ -56,8 +56,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
       backgroundColor: ColorPalette.backgroundColor,
       body: Stack(
         children: [
-
-
           ListView(
             controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,7 +125,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                               _showFiltersDialog(context);
                             },
                             child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12.0),
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -197,7 +196,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                       builder: (context, searchState) {
                         if (searchState is SearchFiltered) {
                           Map<String, List<PlantData>> plantsByLetters =
-                              dividePlantsByFirstLetter(searchState.filteredPlants);
+                              dividePlantsByFirstLetter(
+                                  searchState.filteredPlants);
                           Iterable<String> letters = plantsByLetters.keys;
                           return ListView.builder(
                               shrinkWrap: true,
@@ -212,7 +212,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         letters.elementAt(letterIndex),
@@ -220,7 +221,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                         style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w900,
-                                            color: ColorPalette.primaryTextColor),
+                                            color:
+                                                ColorPalette.primaryTextColor),
                                       ),
                                       const SizedBox(height: 4),
                                       ListView.separated(
@@ -232,7 +234,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                 expandedScrollController =
                                                 ScrollController();
                                             PlantData plant = plantsByLetters[
-                                                    letters.elementAt(letterIndex)]!
+                                                    letters.elementAt(
+                                                        letterIndex)]!
                                                 .elementAt(index);
 
                                             return Material(
@@ -244,17 +247,19 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 onTap: () {
-                                                  context.read<SearchBloc>().add(
-                                                      SearchCardClicked(
+                                                  context
+                                                      .read<SearchBloc>()
+                                                      .add(SearchCardClicked(
                                                           plant.latin));
                                                 },
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 8),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
                                                       Row(
                                                         mainAxisAlignment:
@@ -266,7 +271,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                 style: const TextStyle(
                                                                     color: ColorPalette
                                                                         .primaryTextColor,
-                                                                    fontSize: 14,
+                                                                    fontSize:
+                                                                        14,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w300),
@@ -276,10 +282,10 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                           .name,
                                                                       style: const TextStyle(
                                                                           fontWeight:
-                                                                              FontWeight
-                                                                                  .w700)),
+                                                                              FontWeight.w700)),
                                                                   const TextSpan(
-                                                                      text: " | "),
+                                                                      text:
+                                                                          " | "),
                                                                   TextSpan(
                                                                       text: plant
                                                                           .latin)
@@ -292,7 +298,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                               elevation: 5,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(15),
+                                                                      .circular(
+                                                                          15),
                                                               color: ColorPalette
                                                                   .primaryColor,
                                                               child: IconButton(
@@ -309,10 +316,10 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                       context,
                                                                       MaterialPageRoute(
                                                                           builder: (context) =>
-                                                                              PlantInfoPage(
-                                                                                  plantData: plant)));
+                                                                              PlantInfoPage(plantData: plant)));
                                                                 },
-                                                                icon: const Icon(
+                                                                icon:
+                                                                    const Icon(
                                                                   Icons
                                                                       .arrow_forward_ios_rounded,
                                                                   size: 28,
@@ -324,15 +331,18 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                           ),
                                                         ],
                                                       ),
-                                                      plant.latin == expandedCard
+                                                      plant.latin ==
+                                                              expandedCard
                                                           ? Container(
                                                               height: 80,
                                                               margin: EdgeInsets
                                                                   .symmetric(
-                                                                      vertical: 4),
-                                                              width:
-                                                                  double.infinity,
-                                                              child: RawScrollbar(
+                                                                      vertical:
+                                                                          4),
+                                                              width: double
+                                                                  .infinity,
+                                                              child:
+                                                                  RawScrollbar(
                                                                 controller:
                                                                     expandedScrollController,
                                                                 thumbVisibility:
@@ -340,8 +350,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                 thumbColor:
                                                                     ColorPalette
                                                                         .primaryColor,
-                                                                radius:
-                                                                    Radius.circular(
+                                                                radius: Radius
+                                                                    .circular(
                                                                         15),
                                                                 child:
                                                                     SingleChildScrollView(
@@ -358,24 +368,18 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                       Row(
                                                                         children: [
                                                                           Icon(
-                                                                            Icons
-                                                                                .schedule_rounded,
-                                                                            color: ColorPalette
-                                                                                .primaryTextColor,
+                                                                            Icons.schedule_rounded,
+                                                                            color:
+                                                                                ColorPalette.primaryTextColor,
                                                                           ),
                                                                           SizedBox(
-                                                                              width:
-                                                                                  4),
+                                                                              width: 4),
                                                                           RichText(
-                                                                            text: TextSpan(
-                                                                                style: const TextStyle(
-                                                                                    color: ColorPalette.primaryTextColor,
-                                                                                    fontSize: 14,
-                                                                                    fontWeight: FontWeight.w700),
-                                                                                children: [
-                                                                                  TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
-                                                                                  TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
-                                                                                ]),
+                                                                            text:
+                                                                                TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
+                                                                              TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                                              TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
+                                                                            ]),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -385,24 +389,18 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                       Row(
                                                                         children: [
                                                                           Icon(
-                                                                            Icons
-                                                                                .thermostat,
-                                                                            color: ColorPalette
-                                                                                .primaryTextColor,
+                                                                            Icons.thermostat,
+                                                                            color:
+                                                                                ColorPalette.primaryTextColor,
                                                                           ),
                                                                           SizedBox(
-                                                                              width:
-                                                                                  4),
+                                                                              width: 4),
                                                                           RichText(
-                                                                            text: TextSpan(
-                                                                                style: const TextStyle(
-                                                                                    color: ColorPalette.primaryTextColor,
-                                                                                    fontSize: 14,
-                                                                                    fontWeight: FontWeight.w700),
-                                                                                children: [
-                                                                                  TextSpan(text: "Optimal Temp ", style: const TextStyle(fontWeight: FontWeight.w400)),
-                                                                                  TextSpan(text: "${plant.optimalTemp.min}-${plant.optimalTemp.max}°C")
-                                                                                ]),
+                                                                            text:
+                                                                                TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
+                                                                              TextSpan(text: "Optimal Temp ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                                              TextSpan(text: "${plant.optimalTemp.min}-${plant.optimalTemp.max}°C")
+                                                                            ]),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -412,25 +410,18 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                                       GestureDetector(
                                                                         onTap:
                                                                             () {},
-                                                                        child: Row(
+                                                                        child:
+                                                                            Row(
                                                                           children: [
                                                                             Text(
                                                                               "Planting Time",
-                                                                              style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  color: ColorPalette.primaryTextColor,
-                                                                                  fontWeight: FontWeight.w700),
+                                                                              style: TextStyle(fontSize: 14, color: ColorPalette.primaryTextColor, fontWeight: FontWeight.w700),
                                                                             ),
-                                                                            SizedBox(
-                                                                                width:
-                                                                                    4),
+                                                                            SizedBox(width: 4),
                                                                             Icon(
-                                                                              Icons
-                                                                                  .info_outline,
-                                                                              color:
-                                                                                  ColorPalette.primaryTextColor,
-                                                                              size:
-                                                                                  20,
+                                                                              Icons.info_outline,
+                                                                              color: ColorPalette.primaryTextColor,
+                                                                              size: 20,
                                                                             )
                                                                           ],
                                                                         ),
@@ -449,8 +440,9 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           },
                                           separatorBuilder: (context, index) =>
                                               const SizedBox(height: 8),
-                                          itemCount: plantsByLetters[currentLetter]!
-                                              .length),
+                                          itemCount:
+                                              plantsByLetters[currentLetter]!
+                                                  .length),
                                       SizedBox(height: 16)
                                     ],
                                   ),
@@ -534,32 +526,34 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-SizedBox(height: 80)
+              SizedBox(height: 80)
             ],
           ),
-          BlocBuilder<ScrollCubit, bool>(
-              builder: (context, state) {
-                if (state == true) {
-                  return Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton(
-                        backgroundColor: ColorPalette.primaryColor,
-                        foregroundColor: ColorPalette.cardColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        elevation: 5,
-                        onPressed: () {
-                          scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-
-                      }, child: Icon(Icons.arrow_upward_rounded),),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-
-              }),
+          BlocBuilder<ScrollCubit, bool>(builder: (context, state) {
+            if (state == true) {
+              return Padding(
+                padding: EdgeInsets.all(16),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton(
+                    backgroundColor: ColorPalette.primaryColor,
+                    foregroundColor: ColorPalette.cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    elevation: 5,
+                    onPressed: () {
+                      scrollController.animateTo(0,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeIn);
+                    },
+                    child: Icon(Icons.arrow_upward_rounded),
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );
@@ -603,22 +597,22 @@ SizedBox(height: 80)
                               ),
                               const SizedBox(height: 8),
                               ListView.builder(
-                                shrinkWrap: true,
+                                  shrinkWrap: true,
                                   itemCount: PlantType.values.length,
                                   itemBuilder: (context, index) {
-                                  PlantType plantType = PlantType.values.elementAt(index);
+                                    PlantType plantType =
+                                        PlantType.values.elementAt(index);
                                     return RadioMenuButton(
-                                    value: plantType,
-                                    groupValue: context.read<SearchBloc>().filter,
-                                    onChanged: (PlantType? newFilter) {
-                                      print("Set New Filter: $newFilter");
-                                      context
-                                          .read<SearchBloc>()
-                                          .add(SearchFilterChanged(newFilter!));
-                                    },
-                                    child: Text(plantType.name));
-                              }),
-
+                                        value: plantType,
+                                        groupValue:
+                                            context.read<SearchBloc>().filter,
+                                        onChanged: (PlantType? newFilter) {
+                                          print("Set New Filter: $newFilter");
+                                          context.read<SearchBloc>().add(
+                                              SearchFilterChanged(newFilter!));
+                                        },
+                                        child: Text(plantType.name));
+                                  }),
                             ],
                           );
                         },

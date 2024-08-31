@@ -5,7 +5,16 @@ enum SortingDirection { ascending, descending }
 
 enum Seasons { planting, growing, harvesting, resting }
 
-enum PlantType { all("All"), vegetable("Vegetables"), fruit("Fruits"), herb("Herbs");
+enum PlantType {
+  all("All"),
+  vegetable("Vegetables"),
+  fruit("Fruits"),
+  herb("Herbs"),
+  flower("Flower"),
+  grain("Grain"),
+  seed("Seed"),
+  tree("Tree");
+
   final String name;
   const PlantType(this.name);
 }
