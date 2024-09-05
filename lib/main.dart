@@ -37,7 +37,7 @@ void main() async {
         BlocProvider(create: (context) => InSeasonCubit()),
         BlocProvider(create: (context) => ScrollCubit())
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -54,11 +54,11 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: ColorPalette.backgroundColor,
           radioTheme: RadioThemeData(
               fillColor: WidgetStateProperty.all(ColorPalette.primaryColor)),
-          progressIndicatorTheme:
-              ProgressIndicatorThemeData(color: ColorPalette.primaryColor),
-          textSelectionTheme:
-              TextSelectionThemeData(cursorColor: ColorPalette.primaryColor),
-          inputDecorationTheme: InputDecorationTheme(),
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+              color: ColorPalette.primaryColor),
+          textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: ColorPalette.primaryColor),
+          inputDecorationTheme: const InputDecorationTheme(),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
           fontFamily: GoogleFonts.merriweather().fontFamily),

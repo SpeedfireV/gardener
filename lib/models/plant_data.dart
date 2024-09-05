@@ -22,7 +22,7 @@ class PlantData extends Equatable {
   final int neededLight;
   final String howToPlant;
   final String soilDetails;
-  PlantData(
+  const PlantData(
       this.name,
       this.latin,
       this.type,

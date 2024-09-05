@@ -447,7 +447,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           itemCount:
                                               plantsByLetters[currentLetter]!
                                                   .length),
-                                      SizedBox(height: 16),
+                                      const SizedBox(height: 16),
                                     ],
                                   ),
                                 );
@@ -461,7 +461,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
@@ -474,7 +474,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
@@ -509,7 +509,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,
                           highlightColor: Colors.grey[50]!,
@@ -531,13 +531,13 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              SizedBox(height: 80)
+              const SizedBox(height: 80)
             ],
           ),
           BlocBuilder<ScrollCubit, bool>(builder: (context, state) {
             if (state == true) {
               return Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(
@@ -548,10 +548,10 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                     elevation: 5,
                     onPressed: () {
                       scrollController.animateTo(0,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn);
                     },
-                    child: Icon(Icons.arrow_upward_rounded),
+                    child: const Icon(Icons.arrow_upward_rounded),
                   ),
                 ),
               );
@@ -702,7 +702,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     switch (grownInUserCountry) {
       case IsPlantGrown.grown:
         {
-          return Row(
+          return const Row(
             children: [
               Icon(
                 Icons.check,
@@ -721,7 +721,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
         }
       case IsPlantGrown.notGrown:
         {
-          return Row(
+          return const Row(
             children: [
               Icon(
                 Icons.check,

@@ -21,7 +21,7 @@ class PlantInfoPage extends StatefulWidget {
 
 class _PlantInfoPageState extends State<PlantInfoPage> {
   Future _googleSearch(name, query) async {
-    final googleSearchUrl = 'https://www.google.com/search?q=${name} ${query}';
+    final googleSearchUrl = 'https://www.google.com/search?q=$name $query';
     if (await canLaunchUrl(Uri.parse(googleSearchUrl))) {
       await launchUrl(Uri.parse(googleSearchUrl));
     } else {
@@ -585,7 +585,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
     switch (isPlantGrown(plant)) {
       case (IsPlantGrown.grown):
         {
-          return InformationCard(
+          return const InformationCard(
             title: "Grown In Your Country",
             iconData: Icons.eco_outlined,
             mono: true,
@@ -593,7 +593,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
         }
       case (IsPlantGrown.notGrown):
         {
-          return InformationCard(
+          return const InformationCard(
             title: "Not Grown In Your Country",
             iconData: Icons.eco_outlined,
             mono: true,
@@ -640,12 +640,12 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                 size: 40,
                 color: ColorPalette.primaryTextColor,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 "How To Plant",
                 style: TextStyles.dialogTitleStyle,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 widget.plantData.howToPlant,
                 textAlign: TextAlign.center,
@@ -673,12 +673,12 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
                 size: 40,
                 color: ColorPalette.primaryTextColor,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 "Soil Details",
                 style: TextStyles.dialogTitleStyle,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 widget.plantData.soilDetails,
                 textAlign: TextAlign.center,
@@ -709,24 +709,24 @@ class InformationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late Color _backgroundColor;
-    late Color _primaryColor;
-    late Color _textColor;
+    late Color backgroundColor;
+    late Color primaryColor;
+    late Color textColor;
     if (mono) {
-      _backgroundColor = ColorPalette.primaryColor;
-      _primaryColor = ColorPalette.cardColor;
-      _textColor = ColorPalette.cardColor;
+      backgroundColor = ColorPalette.primaryColor;
+      primaryColor = ColorPalette.cardColor;
+      textColor = ColorPalette.cardColor;
     } else {
-      _backgroundColor = ColorPalette.cardColor;
-      _primaryColor = ColorPalette.primaryColor;
-      _textColor = ColorPalette.primaryTextColor;
+      backgroundColor = ColorPalette.cardColor;
+      primaryColor = ColorPalette.primaryColor;
+      textColor = ColorPalette.primaryTextColor;
     }
 
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: customBackgroundColor ?? _backgroundColor,
+            color: customBackgroundColor ?? backgroundColor,
             borderRadius: BorderRadius.circular(15)),
         child: AspectRatio(
           aspectRatio: 1.0,
@@ -736,7 +736,7 @@ class InformationCard extends StatelessWidget {
               Icon(
                 iconData,
                 size: 32,
-                color: _primaryColor,
+                color: primaryColor,
               ),
               const SizedBox(height: 8),
               Text(
@@ -744,7 +744,7 @@ class InformationCard extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w900,
-                    color: _textColor),
+                    color: textColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 2),
@@ -754,7 +754,7 @@ class InformationCard extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
-                          color: _textColor),
+                          color: textColor),
                       textAlign: TextAlign.center,
                     )
                   : Container()

@@ -12,7 +12,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: ColorPalette.primaryColor,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24),
+        padding: const EdgeInsets.symmetric(vertical: 24),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,9 +27,9 @@ class CustomDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => const HomePage()));
                       }),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   DrawerButton(
                     label: "Plants Handbook",
                     iconData: Icons.book_sharp,
@@ -37,10 +37,10 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PlantsHandbookPage()));
+                              builder: (context) => const PlantsHandbookPage()));
                     },
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   DrawerButton(
                       label: "Complementary Plants",
                       iconData: Icons.add_rounded,
@@ -49,7 +49,7 @@ class CustomDrawer extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ComplementaryPlantingPage()));
+                                    const ComplementaryPlantingPage()));
                       }),
                   // SizedBox(height: 24),
                   // DrawerButton(
@@ -82,12 +82,12 @@ class CustomDrawer extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.construction_rounded,
                             color: ColorPalette.mediumColor,
                             size: 56,
                           ),
-                          title: Column(
+                          title: const Column(
                             children: [
                               Text("Feature In Progress"),
                             ],
@@ -99,7 +99,7 @@ class CustomDrawer extends StatelessWidget {
                                 },
                                 style: TextButton.styleFrom(
                                     foregroundColor: ColorPalette.deleteColor),
-                                child: Text(
+                                child: const Text(
                                   "Close",
                                 ))
                           ],

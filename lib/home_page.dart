@@ -71,12 +71,12 @@ class _HomePageState extends State<HomePage> {
                     showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.construction_rounded,
                                 color: ColorPalette.mediumColor,
                                 size: 56,
                               ),
-                              title: Column(
+                              title: const Column(
                                 children: [
                                   Text("Feature In Progress"),
                                 ],
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                                     style: TextButton.styleFrom(
                                         foregroundColor:
                                             ColorPalette.deleteColor),
-                                    child: Text(
+                                    child: const Text(
                                       "Close",
                                     ))
                               ],
@@ -139,7 +139,8 @@ class _HomePageState extends State<HomePage> {
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 height: 50,
                                 width: 240,
                                 decoration: BoxDecoration(
@@ -148,12 +149,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             GridView(
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -202,12 +203,13 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 height: 50,
                                 width: 240,
                                 decoration: BoxDecoration(
@@ -216,12 +218,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             GridView(
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -250,12 +252,13 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 height: 50,
                                 width: 240,
                                 decoration: BoxDecoration(
@@ -264,12 +267,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             GridView(
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -298,12 +301,13 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[50]!,
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 height: 50,
                                 width: 240,
                                 decoration: BoxDecoration(
@@ -312,12 +316,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             GridView(
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -368,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: state.inSeasonPlants.length,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -380,7 +384,7 @@ class _HomePageState extends State<HomePage> {
                                       state.inSeasonPlants.elementAt(index));
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
@@ -397,7 +401,7 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: state.vegetables.length,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -408,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                                   plantData: state.vegetables.elementAt(index));
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
@@ -425,7 +429,7 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: state.fruits.length,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -436,7 +440,7 @@ class _HomePageState extends State<HomePage> {
                                   plantData: state.fruits.elementAt(index));
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
@@ -453,7 +457,7 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: state.herbs.length,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -464,7 +468,7 @@ class _HomePageState extends State<HomePage> {
                                   plantData: state.herbs.elementAt(index));
                             },
                           ),
-                          SizedBox(height: 24)
+                          const SizedBox(height: 24)
                         ],
                       );
                     }
@@ -482,7 +486,7 @@ class _HomePageState extends State<HomePage> {
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[50]!,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           height: 50,
                           width: 240,
                           decoration: BoxDecoration(
@@ -491,11 +495,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GridView(
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -544,12 +548,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[50]!,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           height: 50,
                           width: 240,
                           decoration: BoxDecoration(
@@ -558,11 +562,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GridView(
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -591,12 +595,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[50]!,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           height: 50,
                           width: 240,
                           decoration: BoxDecoration(
@@ -605,11 +609,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GridView(
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -638,12 +642,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[50]!,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           height: 50,
                           width: 240,
                           decoration: BoxDecoration(
@@ -652,11 +656,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       GridView(
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -687,9 +691,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ]);
               } else if (firestoreState is PlantsError) {
-                return Text("Error connecting with the internet!");
+                return const Text("Error connecting with the internet!");
               } else {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
             },
           ),
