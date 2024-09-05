@@ -22,7 +22,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirestoreService().getPlants();
   await dotenv.load(fileName: ".env");
 
   runApp(

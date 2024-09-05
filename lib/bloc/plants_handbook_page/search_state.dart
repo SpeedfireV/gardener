@@ -21,3 +21,5 @@ class SearchFiltering extends SearchState {}
 class SearchSorting extends SearchState {}
 
 class SearchCardExpanding extends SearchState {}
+
+class SearchAddingMorePlants extends SearchState {}

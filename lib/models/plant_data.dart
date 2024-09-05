@@ -88,6 +88,8 @@ class PlantData extends Equatable {
     }
   }
 
+  Map<String, dynamic> toJson() => _$PlantDataToJson(this);
+
   @override
   String toString() {
     return name;

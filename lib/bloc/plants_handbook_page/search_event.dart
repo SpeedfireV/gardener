@@ -3,6 +3,10 @@ part of 'search_bloc.dart';
 @immutable
 sealed class SearchEvent {}
 
+class SearchAddMorePlants extends SearchEvent {
+
+}
+
 class SearchQueryChanged extends SearchEvent {
   final String query;
 

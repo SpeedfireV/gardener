@@ -23,14 +23,15 @@ class PlantsHandbookPage extends StatefulWidget {
 class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   late final TextEditingController searchController;
-  late final ScrollController scrollController;
+  late ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
     // Dispatch the event here, after the Bloc has been provided
 
-    BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
+    BlocProvider.of<FirestoreBloc>(context)
+        .add(LoadPlants(sortingDirection: SortingDirection.ascending));
 
     searchController = TextEditingController();
     scrollController = ScrollController();
@@ -266,30 +267,35 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          RichText(
-                                                            text: TextSpan(
-                                                                style: const TextStyle(
-                                                                    color: ColorPalette
-                                                                        .primaryTextColor,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w300),
-                                                                children: [
-                                                                  TextSpan(
-                                                                      text: plant
-                                                                          .name,
-                                                                      style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w700)),
-                                                                  const TextSpan(
-                                                                      text:
-                                                                          " | "),
-                                                                  TextSpan(
-                                                                      text: plant
-                                                                          .latin)
-                                                                ]),
+                                                          Flexible(
+                                                            child: RichText(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              text: TextSpan(
+                                                                  style: const TextStyle(
+                                                                      color: ColorPalette
+                                                                          .primaryTextColor,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w300),
+                                                                  children: [
+                                                                    TextSpan(
+                                                                        text: plant
+                                                                            .name,
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w700)),
+                                                                    const TextSpan(
+                                                                        text:
+                                                                            " | "),
+                                                                    TextSpan(
+                                                                        text: plant
+                                                                            .latin)
+                                                                  ]),
+                                                            ),
                                                           ),
                                                           SizedBox(
                                                             width: 40,
@@ -443,7 +449,24 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           itemCount:
                                               plantsByLetters[currentLetter]!
                                                   .length),
-                                      SizedBox(height: 16)
+                                      SizedBox(height: 16),
+                                      TextButton.icon(
+                                        style: TextButton.styleFrom(
+                                            foregroundColor:
+                                                ColorPalette.primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15))),
+                                        onPressed: () {
+                                          context.read<FirestoreBloc>().add(
+                                              LoadPlants(
+                                                  sortingDirection:
+                                                      SortingDirection
+                                                          .ascending));
+                                        },
+                                        label: Text("Load More Plants"),
+                                        icon: Icon(Icons.restart_alt),
+                                      )
                                     ],
                                   ),
                                 );
@@ -521,16 +544,17 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                       ],
                     );
                   } else if (firestoreState is PlantsError) {
-                    return const Text("Error loading data");
+                    return Text(
+                        "Error loading data  ${firestoreState.errorMessage}");
                   }
                   return const CircularProgressIndicator();
                 },
               ),
-              SizedBox(height: 80)
+              SizedBox(height: 20)
             ],
           ),
-          BlocBuilder<ScrollCubit, bool>(builder: (context, state) {
-            if (state == true) {
+          BlocBuilder<ScrollCubit, double>(builder: (context, state) {
+            if (scrollController.hasClients && state > 200) {
               return Padding(
                 padding: EdgeInsets.all(16),
                 child: Align(
@@ -610,6 +634,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           print("Set New Filter: $newFilter");
                                           context.read<SearchBloc>().add(
                                               SearchFilterChanged(newFilter!));
+                                          _fetchPlants(context);
                                         },
                                         child: Text(plantType.name));
                                   }),
@@ -618,6 +643,14 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                         },
                       )),
             ));
+  }
+
+  _fetchPlants(BuildContext context) {
+    context.read<FirestoreBloc>().add(LoadPlants(
+        changedFilters: true,
+        sortingDirection: context.read<SearchBloc>().sortingDirection,
+        filter: context.read<SearchBloc>().filter,
+        query: context.read<SearchBloc>().query));
   }
 
   _showSortingDialog(BuildContext globalContext) {

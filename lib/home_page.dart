@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardener/constants/styles.dart';
 import 'package:gardener/drawer.dart';
 import 'package:gardener/models/plant_data.dart';
 import 'package:gardener/plant_info_page.dart';
@@ -61,18 +62,23 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+
                 const SizedBox(width: 16),
-                Expanded(
-                    child: SearchBar(
-                  hintText: "How can I help You?",
-                  backgroundColor:
-                      WidgetStateProperty.all(ColorPalette.cardColor),
-                  hintStyle: WidgetStateProperty.all(const TextStyle(
-                      fontSize: 14, color: ColorPalette.primaryTextColor)),
-                  leading: const Icon(Icons.search),
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15))),
-                )),
+                Text(
+                  "Home Page",
+                  style: TextStyles.titleTextStyle,
+                )
+                // Expanded(
+                //     child: SearchBar(
+                //   hintText: "How can I help You?",
+                //   backgroundColor:
+                //       WidgetStateProperty.all(ColorPalette.cardColor),
+                //   hintStyle: WidgetStateProperty.all(const TextStyle(
+                //       fontSize: 14, color: ColorPalette.primaryTextColor)),
+                //   leading: const Icon(Icons.search),
+                //   shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(15))),
+                // )),
               ],
             ),
           ),
@@ -142,61 +148,125 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))),
-                iconAlignment: IconAlignment.end,
-                onPressed: () {
-                  debugPrint("Garden Data Clicked");
-                },
-                icon: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: ColorPalette.primaryTextColor,
-                ),
-                label: const Text(
-                  "Garden Data",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      color: ColorPalette.primaryTextColor),
-                ),
-              ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "In Season",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: ColorPalette.primaryTextColor),
             ),
           ),
-          const SizedBox(height: 24),
-          GridView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12),
-            physics: NeverScrollableScrollPhysics(),
-            children: const [
-              Material(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("Air Humidity")],
-                ),
-              ),
-              Material(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 8),
+          BlocBuilder<InSeasonCubit, InSeasonState>(
+            builder: (context, state) {
+              if (state is InSeasonLoading) {
+                return GridView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12),
                   children: [
-                    Text(
-                      "Temperature",
-                    )
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              )
-            ],
+                );
+              } else if (state is InSeasonLoaded) {
+                Iterable<PlantData> plants = state.plants;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: plants.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12),
+                  itemBuilder: (context, index) {
+                    return PlantInfoCard(plantData: plants.elementAt(index));
+                  },
+                );
+              }
+              return const Text("Other State");
+            },
           ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8),
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: TextButton.icon(
+          //       style: TextButton.styleFrom(
+          //           padding: const EdgeInsets.symmetric(horizontal: 8),
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(15))),
+          //       iconAlignment: IconAlignment.end,
+          //       onPressed: () {
+          //         debugPrint("Garden Data Clicked");
+          //       },
+          //       icon: const Icon(
+          //         Icons.arrow_forward_ios_rounded,
+          //         color: ColorPalette.primaryTextColor,
+          //       ),
+          //       label: const Text(
+          //         "Garden Data",
+          //         style: TextStyle(
+          //             fontSize: 24,
+          //             fontWeight: FontWeight.w900,
+          //             color: ColorPalette.primaryTextColor),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 24),
+          // GridView(
+          //   shrinkWrap: true,
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //       crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12),
+          //   physics: NeverScrollableScrollPhysics(),
+          //   children: const [
+          //     Material(
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [Text("Air Humidity")],
+          //       ),
+          //     ),
+          //     Material(
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             "Temperature",
+          //           )
+          //         ],
+          //       ),
+          //     )
+          //   ],
+          // ),
         ],
       ),
     );

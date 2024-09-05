@@ -29,7 +29,8 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
   void initState() {
     super.initState();
     searchController = TextEditingController();
-    BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
+    BlocProvider.of<FirestoreBloc>(context)
+        .add(LoadPlants(sortingDirection: SortingDirection.ascending));
     BlocProvider.of<PlantsListBloc>(context).add(PlantsListResetSelection());
   }
 
@@ -530,7 +531,6 @@ class _ComplementaryPlantingPageState extends State<ComplementaryPlantingPage> {
                             ),
                           ],
                         );
-                        ;
                       },
                     );
                   } else if (firestoreState is PlantsLoading) {

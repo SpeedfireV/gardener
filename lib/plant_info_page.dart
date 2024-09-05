@@ -593,16 +593,11 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
         }
       case (IsPlantGrown.notGrown):
         {
-          return const Row(
-            children: [
-              SizedBox(width: 12),
-              InformationCard(
-                title: "Not Grown In Your Country",
-                iconData: Icons.eco_outlined,
-                mono: true,
-                customBackgroundColor: ColorPalette.complementaryColor,
-              ),
-            ],
+          return InformationCard(
+            title: "Not Grown In Your Country",
+            iconData: Icons.eco_outlined,
+            mono: true,
+            customBackgroundColor: ColorPalette.complementaryColor,
           );
         }
       default:

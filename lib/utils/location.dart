@@ -14,8 +14,7 @@ IsPlantGrown isPlantGrown(PlantData plant) {
   print(userCountryCode);
   print(plant.countries);
   if (userCountryCode != null) {
-    if (
-        plant.countries.containsKey(userCountryCode.toUpperCase())) {
+    if (plant.countries.containsKey(userCountryCode.toUpperCase())) {
       if (plant.countries[userCountryCode] == true) {
         grownInUserCountry = IsPlantGrown.grown;
       } else if (plant.countries[userCountryCode] == false) {

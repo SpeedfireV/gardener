@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:gardener/constants/enums.dart';
-import 'package:gardener/services/firestore.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/plant_data.dart';
@@ -13,7 +12,7 @@ class InSeasonCubit extends Cubit<InSeasonState> {
   Future loadSeasonPlants() async {
     emit(InSeasonLoading());
 
-    List<PlantData> plants = await FirestoreService().getPlants().first;
+    List<PlantData> plants = [];
     int currentSeason = DateTime.now().month * 2 + DateTime.now().day ~/ 15;
     print(currentSeason);
     Iterable<PlantData> filteredPlants = plants

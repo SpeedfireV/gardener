@@ -51,25 +51,25 @@ class CustomDrawer extends StatelessWidget {
                                 builder: (context) =>
                                     ComplementaryPlantingPage()));
                       }),
-                  SizedBox(height: 24),
-                  DrawerButton(
-                    label: "Sensors",
-                    iconData: Icons.sensors,
-                    function: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                  ),
-                  SizedBox(height: 24),
-                  DrawerButton(
-                      label: "Gardener Shop",
-                      iconData: Icons.shopping_bag_outlined,
-                      function: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      }),
+                  // SizedBox(height: 24),
+                  // DrawerButton(
+                  //   label: "Sensors",
+                  //   iconData: Icons.sensors,
+                  //   function: () {
+                  //     Navigator.push(context,
+                  //         MaterialPageRoute(builder: (context) => HomePage()));
+                  //   },
+                  // ),
+                  // SizedBox(height: 24),
+                  // DrawerButton(
+                  //     label: "Gardener Shop",
+                  //     iconData: Icons.shopping_bag_outlined,
+                  //     function: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => HomePage()));
+                  //     }),
                 ],
               ),
             ),
