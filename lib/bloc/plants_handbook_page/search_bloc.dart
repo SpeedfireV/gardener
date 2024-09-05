@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardener/models/plant_data.dart';
 
 import '../../constants/enums.dart';
@@ -8,15 +9,14 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  String query;
-  PlantType filter;
-  SortingDirection sortingDirection;
-  List<PlantData> plants;
+  String query = "";
+  PlantType filter = PlantType.all;
+  SortingDirection sortingDirection = SortingDirection.ascending;
+  List<PlantData> allPlants = [];
+  List<PlantData> plants = [];
   bool sorted;
   String? expanded;
-  SearchBloc(this.query, this.filter, this.plants, this.sortingDirection,
-      {this.sorted = true})
-      : super(SearchInitial()) {
+  SearchBloc({this.sorted = true}) : super(SearchInitial()) {
     on<SearchQueryChanged>((event, emit) {
       try {
         query = event.query;
@@ -49,6 +49,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Iterable<PlantData> filterPlants() {
+    plants = allPlants;
+    print(allPlants);
+    Stopwatch stopwatch = Stopwatch()..start();
     if (!sorted) {
       plants.sort((PlantData a, PlantData b) {
         if (sortingDirection == SortingDirection.ascending) {
@@ -65,24 +68,29 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       });
       sorted = true;
     }
+    print('Sorting executed in ${stopwatch.elapsed}');
+
     List<PlantData> filteredPlants = plants;
     if (filter != PlantType.all) {
       filteredPlants = filteredPlants
           .where((PlantData plant) => plant.type == filter)
           .toList();
     }
+    print('Filtering executed in ${stopwatch.elapsed}');
+
     if (query != "") {
       filteredPlants = filteredPlants
           .where((PlantData plant) =>
               plant.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
+    print('Searching executed in ${stopwatch.elapsed}');
 
     return filteredPlants;
   }
 
-  void setPlants(List<PlantData> plants) {
-    this.plants = plants;
+  void setPlants(List<PlantData> providedPlants) {
+    allPlants = providedPlants;
   }
 
   @override

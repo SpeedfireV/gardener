@@ -77,8 +77,33 @@ class CustomDrawer extends StatelessWidget {
               label: "Settings",
               iconData: Icons.settings,
               function: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => HomePage()));
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          icon: Icon(
+                            Icons.construction_rounded,
+                            color: ColorPalette.mediumColor,
+                            size: 56,
+                          ),
+                          title: Column(
+                            children: [
+                              Text("Feature In Progress"),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: TextButton.styleFrom(
+                                    foregroundColor: ColorPalette.deleteColor),
+                                child: Text(
+                                  "Close",
+                                ))
+                          ],
+                        ));
               },
             )
           ],

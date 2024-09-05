@@ -7,8 +7,15 @@ final class InSeasonInitial extends InSeasonState {}
 
 final class InSeasonLoading extends InSeasonState {}
 
-final class InSeasonLoaded extends InSeasonState {
-  final Iterable<PlantData> plants;
+final class InSeasonSpecialPlantsLoaded extends InSeasonState {
+  final Iterable<PlantData> inSeasonPlants;
+  final Iterable<PlantData> fruits;
+  final Iterable<PlantData> vegetables;
+  final Iterable<PlantData> herbs;
 
-  InSeasonLoaded(this.plants);
+  InSeasonSpecialPlantsLoaded(
+      {required this.inSeasonPlants,
+      required this.fruits,
+      required this.vegetables,
+      required this.herbs});
 }

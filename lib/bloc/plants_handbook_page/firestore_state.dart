@@ -9,7 +9,10 @@ class PlantsLoading extends FirestoreState {}
 
 class PlantsLoaded extends FirestoreState {
   final List<PlantData> plants;
-  PlantsLoaded(this.plants);
+
+  PlantsLoaded(this.plants) {
+    print("Loaded $plants");
+  }
 }
 
 class PlantsFiltered extends FirestoreState {

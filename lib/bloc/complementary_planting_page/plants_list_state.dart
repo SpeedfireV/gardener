@@ -25,3 +25,9 @@ class PlantsListRemovingPlant extends PlantsListState {}
 class PlantsListCardExpanding extends PlantsListState {}
 
 class PlantsListResetting extends PlantsListState {}
+
+class PlantsListError extends PlantsListState {
+  final String errorMessage;
+
+  PlantsListError(this.errorMessage);
+}

@@ -101,17 +101,14 @@ class PlantsListBloc extends Bloc<PlantsListEvent, PlantsListState> {
       });
       sorted = true;
     }
-    List<PlantData> filteredPlants = plants;
+    Iterable<PlantData> filteredPlants = plants;
     if (filter != PlantType.all) {
-      filteredPlants = filteredPlants
-          .where((PlantData plant) => plant.type == filter)
-          .toList();
+      filteredPlants =
+          filteredPlants.where((PlantData plant) => plant.type == filter);
     }
     if (query != "") {
-      filteredPlants = filteredPlants
-          .where((PlantData plant) =>
-              plant.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      filteredPlants = filteredPlants.where((PlantData plant) =>
+          plant.name.toLowerCase().contains(query.toLowerCase()));
     }
 
     return filteredPlants;

@@ -30,8 +30,7 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
     super.initState();
     // Dispatch the event here, after the Bloc has been provided
 
-    BlocProvider.of<FirestoreBloc>(context)
-        .add(LoadPlants(sortingDirection: SortingDirection.ascending));
+    BlocProvider.of<FirestoreBloc>(context).add(LoadPlants());
 
     searchController = TextEditingController();
     scrollController = ScrollController();
@@ -189,6 +188,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
               BlocBuilder<FirestoreBloc, FirestoreState>(
                 builder: (context, firestoreState) {
                   if (firestoreState is PlantsLoaded) {
+                    debugPrint(firestoreState.plants.toString());
+                    debugPrint("hereee");
                     context.read<SearchBloc>().setPlants(firestoreState.plants);
                     context
                         .read<SearchBloc>()
@@ -196,6 +197,8 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                     return BlocBuilder<SearchBloc, SearchState>(
                       builder: (context, searchState) {
                         if (searchState is SearchFiltered) {
+                          print(
+                              "Search Bloc builded with ${searchState.filteredPlants.length}");
                           Map<String, List<PlantData>> plantsByLetters =
                               dividePlantsByFirstLetter(
                                   searchState.filteredPlants);
@@ -206,9 +209,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                               itemBuilder: (context, letterIndex) {
                                 String currentLetter =
                                     letters.elementAt(letterIndex);
-                                String? expandedCard =
-                                    context.read<SearchBloc>().expanded;
-
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: Column(
@@ -231,28 +231,28 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                               const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) {
-                                            ScrollController
-                                                expandedScrollController =
-                                                ScrollController();
+                                            // ScrollController
+                                            //     expandedScrollController =
+                                            //     ScrollController();
                                             PlantData plant = plantsByLetters[
                                                     letters.elementAt(
                                                         letterIndex)]!
                                                 .elementAt(index);
 
                                             return Material(
-                                              elevation: 5,
+                                              elevation: 0,
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                               color: ColorPalette.cardColor,
                                               child: InkWell(
                                                 borderRadius:
                                                     BorderRadius.circular(15),
-                                                onTap: () {
-                                                  context
-                                                      .read<SearchBloc>()
-                                                      .add(SearchCardClicked(
-                                                          plant.latin));
-                                                },
+                                                // onTap: () {
+                                                //   context
+                                                //       .read<SearchBloc>()
+                                                //       .add(SearchCardClicked(
+                                                //           plant.latin));
+                                                // },
                                                 child: Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(
@@ -337,107 +337,105 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                                           ),
                                                         ],
                                                       ),
-                                                      plant.latin ==
-                                                              expandedCard
-                                                          ? Container(
-                                                              height: 80,
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          4),
-                                                              width: double
-                                                                  .infinity,
-                                                              child:
-                                                                  RawScrollbar(
-                                                                controller:
-                                                                    expandedScrollController,
-                                                                thumbVisibility:
-                                                                    true,
-                                                                thumbColor:
-                                                                    ColorPalette
-                                                                        .primaryColor,
-                                                                radius: Radius
-                                                                    .circular(
-                                                                        15),
-                                                                child:
-                                                                    SingleChildScrollView(
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      _grownInCountryWidget(
-                                                                          plant),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              4),
-                                                                      Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.schedule_rounded,
-                                                                            color:
-                                                                                ColorPalette.primaryTextColor,
-                                                                          ),
-                                                                          SizedBox(
-                                                                              width: 4),
-                                                                          RichText(
-                                                                            text:
-                                                                                TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
-                                                                              TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
-                                                                              TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
-                                                                            ]),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              4),
-                                                                      Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.thermostat,
-                                                                            color:
-                                                                                ColorPalette.primaryTextColor,
-                                                                          ),
-                                                                          SizedBox(
-                                                                              width: 4),
-                                                                          RichText(
-                                                                            text:
-                                                                                TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
-                                                                              TextSpan(text: "Optimal Temp ", style: const TextStyle(fontWeight: FontWeight.w400)),
-                                                                              TextSpan(text: "${plant.optimalTemp.min}-${plant.optimalTemp.max}°C")
-                                                                            ]),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              4),
-                                                                      GestureDetector(
-                                                                        onTap:
-                                                                            () {},
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              "Planting Time",
-                                                                              style: TextStyle(fontSize: 14, color: ColorPalette.primaryTextColor, fontWeight: FontWeight.w700),
-                                                                            ),
-                                                                            SizedBox(width: 4),
-                                                                            Icon(
-                                                                              Icons.info_outline,
-                                                                              color: ColorPalette.primaryTextColor,
-                                                                              size: 20,
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          : Container()
+                                                      // Container(
+                                                      //         height: 80,
+                                                      //         margin: EdgeInsets
+                                                      //             .symmetric(
+                                                      //                 vertical:
+                                                      //                     4),
+                                                      //         width: double
+                                                      //             .infinity,
+                                                      //         child:
+                                                      //             RawScrollbar(
+                                                      //           controller:
+                                                      //               expandedScrollController,
+                                                      //           thumbVisibility:
+                                                      //               true,
+                                                      //           thumbColor:
+                                                      //               ColorPalette
+                                                      //                   .primaryColor,
+                                                      //           radius: Radius
+                                                      //               .circular(
+                                                      //                   15),
+                                                      //           child:
+                                                      //               SingleChildScrollView(
+                                                      //             child: Column(
+                                                      //               crossAxisAlignment:
+                                                      //                   CrossAxisAlignment
+                                                      //                       .start,
+                                                      //               children: [
+                                                      //                 _grownInCountryWidget(
+                                                      //                     plant),
+                                                      //                 SizedBox(
+                                                      //                     height:
+                                                      //                         4),
+                                                      //                 Row(
+                                                      //                   children: [
+                                                      //                     Icon(
+                                                      //                       Icons.schedule_rounded,
+                                                      //                       color:
+                                                      //                           ColorPalette.primaryTextColor,
+                                                      //                     ),
+                                                      //                     SizedBox(
+                                                      //                         width: 4),
+                                                      //                     RichText(
+                                                      //                       text:
+                                                      //                           TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
+                                                      //                         TextSpan(text: "Growing Time ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                      //                         TextSpan(text: "${plant.growingTime.min.toInt()}-${plant.growingTime.max.toInt()} weeks")
+                                                      //                       ]),
+                                                      //                     ),
+                                                      //                   ],
+                                                      //                 ),
+                                                      //                 SizedBox(
+                                                      //                     height:
+                                                      //                         4),
+                                                      //                 Row(
+                                                      //                   children: [
+                                                      //                     Icon(
+                                                      //                       Icons.thermostat,
+                                                      //                       color:
+                                                      //                           ColorPalette.primaryTextColor,
+                                                      //                     ),
+                                                      //                     SizedBox(
+                                                      //                         width: 4),
+                                                      //                     RichText(
+                                                      //                       text:
+                                                      //                           TextSpan(style: const TextStyle(color: ColorPalette.primaryTextColor, fontSize: 14, fontWeight: FontWeight.w700), children: [
+                                                      //                         TextSpan(text: "Optimal Temp ", style: const TextStyle(fontWeight: FontWeight.w400)),
+                                                      //                         TextSpan(text: "${plant.optimalTemp.min}-${plant.optimalTemp.max}°C")
+                                                      //                       ]),
+                                                      //                     ),
+                                                      //                   ],
+                                                      //                 ),
+                                                      //                 SizedBox(
+                                                      //                     height:
+                                                      //                         4),
+                                                      //                 GestureDetector(
+                                                      //                   onTap:
+                                                      //                       () {},
+                                                      //                   child:
+                                                      //                       Row(
+                                                      //                     children: [
+                                                      //                       Text(
+                                                      //                         "Planting Time",
+                                                      //                         style: TextStyle(fontSize: 14, color: ColorPalette.primaryTextColor, fontWeight: FontWeight.w700),
+                                                      //                       ),
+                                                      //                       SizedBox(width: 4),
+                                                      //                       Icon(
+                                                      //                         Icons.info_outline,
+                                                      //                         color: ColorPalette.primaryTextColor,
+                                                      //                         size: 20,
+                                                      //                       )
+                                                      //                     ],
+                                                      //                   ),
+                                                      //                 )
+                                                      //               ],
+                                                      //             ),
+                                                      //           ),
+                                                      //         ),
+                                                      //       )
+                                                      //     : Container()
                                                     ],
                                                   ),
                                                 ),
@@ -450,23 +448,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                               plantsByLetters[currentLetter]!
                                                   .length),
                                       SizedBox(height: 16),
-                                      TextButton.icon(
-                                        style: TextButton.styleFrom(
-                                            foregroundColor:
-                                                ColorPalette.primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15))),
-                                        onPressed: () {
-                                          context.read<FirestoreBloc>().add(
-                                              LoadPlants(
-                                                  sortingDirection:
-                                                      SortingDirection
-                                                          .ascending));
-                                        },
-                                        label: Text("Load More Plants"),
-                                        icon: Icon(Icons.restart_alt),
-                                      )
                                     ],
                                   ),
                                 );
@@ -550,11 +531,11 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              SizedBox(height: 20)
+              SizedBox(height: 80)
             ],
           ),
-          BlocBuilder<ScrollCubit, double>(builder: (context, state) {
-            if (scrollController.hasClients && state > 200) {
+          BlocBuilder<ScrollCubit, bool>(builder: (context, state) {
+            if (state == true) {
               return Padding(
                 padding: EdgeInsets.all(16),
                 child: Align(
@@ -634,7 +615,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                                           print("Set New Filter: $newFilter");
                                           context.read<SearchBloc>().add(
                                               SearchFilterChanged(newFilter!));
-                                          _fetchPlants(context);
                                         },
                                         child: Text(plantType.name));
                                   }),
@@ -643,14 +623,6 @@ class _PlantsHandbookPageState extends State<PlantsHandbookPage> {
                         },
                       )),
             ));
-  }
-
-  _fetchPlants(BuildContext context) {
-    context.read<FirestoreBloc>().add(LoadPlants(
-        changedFilters: true,
-        sortingDirection: context.read<SearchBloc>().sortingDirection,
-        filter: context.read<SearchBloc>().filter,
-        query: context.read<SearchBloc>().query));
   }
 
   _showSortingDialog(BuildContext globalContext) {

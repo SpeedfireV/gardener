@@ -897,137 +897,162 @@ class NeededWaterDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.info_outline_rounded,
-                size: 40,
-                color: ColorPalette.primaryTextColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.info_outline_rounded,
+              size: 40,
+              color: ColorPalette.primaryTextColor,
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              "Needed Water Description",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: ColorPalette.primaryTextColor),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 1
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Water sparingly. Give a drink only once every 4-6 weeks or when the soil is completely dry. Perfect for cacti and succulents that thrive in dry conditions.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 2
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Water every 2-3 weeks. Let the soil dry out completely between waterings. Ideal for drought-tolerant plants or houseplants that don’t need much moisture.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 3
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Water once a week. Check the soil; if the top inch feels dry, it’s time to water. Great for most common houseplants like pothos or spider plants.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 4
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Water every 3-4 days. Keep the soil consistently moist but not soggy. This works well for ferns, peace lilies, and other plants that prefer more moisture.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 5
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Water every 1-2 days. Ensure the soil stays damp but not waterlogged. Use this level for tropical plants or new seedlings that need a lot of water.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(index < 6
+                                    ? "lib/assets/images/droplet.png"
+                                    : "lib/assets/images/droplet_outlined.png"),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Keep the soil moist at all times. Water daily, or even multiple times a day in hot weather. Essential for aquatic plants, hydroponics, or plants in very dry, hot conditions.",
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 4),
-              const Text(
-                "Needed Water Description",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: ColorPalette.primaryTextColor),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 1
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 2
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 3
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 4
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 5
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 6
-                              ? "lib/assets/images/droplet.png"
-                              : "lib/assets/images/droplet_outlined.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 18),
-              closeTextButton(context)
-            ],
-          ),
+            ),
+            const SizedBox(height: 18),
+            closeTextButton(context)
+          ],
         ),
       ),
     );
@@ -1046,125 +1071,157 @@ class NeededLightDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.info_outline_rounded,
-                size: 40,
-                color: ColorPalette.primaryTextColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.info_outline_rounded,
+              size: 40,
+              color: ColorPalette.primaryTextColor,
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              "Needed Light Description",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: ColorPalette.primaryTextColor),
+            ),
+            const SizedBox(height: 24),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 1 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Keep the plant in a dimly lit area with indirect light, such as a corner far from windows or a room with minimal natural light. Works for low-light-tolerant plants like ZZ plants or snake plants.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 2 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Position the plant in a spot that gets indirect light but is still relatively shaded, such as near a north-facing window or in a room with filtered light. Great for ferns or philodendrons.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 3 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Place the plant in a room with bright, indirect light or near an east-facing window that gets morning sun. Ideal for most common houseplants, such as pothos or spider plants.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 4 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Set the plant in a spot that gets bright, indirect light throughout the day, like near a sheer-curtained south or west-facing window. Perfect for plants like peace lilies, orchids, or calatheas.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 5 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Position the plant where it can receive a few hours of direct sunlight each day, preferably in the morning or late afternoon, such as near an east-facing window. Good for herbs, geraniums, or some flowering plants.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Image(
+                                image: AssetImage(
+                                    index < 6 ? _icon : _icon_outlined),
+                                width: 20,
+                                height: 20,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 4),
+                          itemCount: 6),
+                    ),
+                    const Text(
+                      "Place the plant in full sun where it receives direct sunlight for most of the day, like on a south-facing windowsill or outdoors in a sunny spot. Necessary for sun-loving plants like succulents, cacti, or most fruiting and vegetable plants.",
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 4),
-              const Text(
-                "Needed Water Description",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: ColorPalette.primaryTextColor),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 1 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 2 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 3 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 4 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 5 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 20,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Image(
-                          image: AssetImage(index < 6 ? _icon : _icon_outlined),
-                          width: 20,
-                          height: 20,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 4),
-                    itemCount: 6),
-              ),
-              const Text("Needs to be watered few times a week"),
-              const SizedBox(height: 18),
-              closeTextButton(context)
-            ],
-          ),
+            ),
+            const SizedBox(height: 18),
+            closeTextButton(context)
+          ],
         ),
       ),
     );
