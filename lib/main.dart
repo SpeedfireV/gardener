@@ -15,13 +15,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'bloc/plants_handbook_page/firestore_bloc.dart';
 import 'bloc/plants_handbook_page/search_bloc.dart';
 import 'constants/enums.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
 
   runApp(
