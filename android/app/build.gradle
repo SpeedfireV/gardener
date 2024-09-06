@@ -53,7 +53,7 @@ android {
             firebaseAppDistribution {
                 appId = "1:676198945563:android:136e53bcb9b26d1a72f9be" // Replace with your actual Firebase App ID for android application
                 // If CI enviroment, use remote machine service account file path, else use local path from local machine
-                serviceCredentialsFile= System.getenv()["CI"] ? "CM_BUILD_DIR/firebase_credentials.json": System.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+                serviceCredentialsFile= System.getenv()["CI"] ? "C:/Users/grzeg/StudioProjects/gardener/android/gardener-ca78c-0a4109e8221f.json": System.getenv("GOOGLE_APPLICATION_CREDENTIALS")
                 testers="grzegorz.niespodzianek@gmail.com" // write testers here you want to publish forandroid build
                 groups= "android_testers" // group name on android
             }
