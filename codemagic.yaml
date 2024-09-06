@@ -1,0 +1,75 @@
+workflows:
+  # Generate APK Workflow
+  generate_apk_workflow:
+    name: Generate APK Workflow
+    environment:
+      android_signing:
+        - keystore_reference
+      flutter: stable
+      vars:
+        ANDROID_APP_ID: $ANDROID_APP_ID # Android App id
+        FIREBASE_SERVICE_ACCOUNT: $FIREBASE_SERVICE_ACCOUNT # Firebase service account json
+        GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS # Path to Fireabse service account json file
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+    scripts:
+      - name: Check current location
+        script: pwd
+      - name: List contents of the current directory
+        script: ls
+      - name: Open your_projectname folder if it exists
+        script: |
+          if [ -d "your_projectname" ]; then
+            cd your_projectname && pwd && ls
+          else
+            pwd
+            ls
+            echo "your_projectname directory does not exist."
+          fi
+      - name: Verify Flutter installation
+        script: flutter --version
+      - name: Install dependencies
+        script: |
+          cd your_projectname && pwd && ls
+          if [ -f "pubspec.yaml" ]; then
+            flutter pub get
+          else
+            pwd
+            ls
+            echo "pubspec.yaml not found in the current directory."
+            exit 1
+          fi
+      - name: Run code generation
+        script: |
+          cd your_projectname && pwd && ls && flutter clean && flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Build APK
+        script: |
+          cd your_projectname && pwd && ls && flutter build apk --release --dart-define=APP_ID=$APP_ID --no-tree-shake-icons
+      - name: Check if APK exist
+        script: |
+          if [ -f "your_projectname/build/app/outputs/flutter-apk/app-release.apk" ]; then
+            ls
+            echo "APK file exists."
+          else
+            echo "APK file does not exist."
+            exit 1
+          fi
+      - name: Deploy apk to Firebase App Distribution
+        script: |
+          cd your_projectname/android && pwd && ls
+          if [ -f "/Users/builder/clone/your_projectname/android/your_service_account_json_file.json" ]; then
+            echo "___your_service_account_json_file.json file found___"
+            echo "___Uploading APK___"
+            ./gradlew appDistributionUploadRelease
+            echo "___APK Uploaded___"
+          else
+            echo "___your_service_account_json_file.json file NOT found___"
+            exit 1
+          fi
+    artifacts:
+      - your_projectname/build/**/outputs/**/*.apk
