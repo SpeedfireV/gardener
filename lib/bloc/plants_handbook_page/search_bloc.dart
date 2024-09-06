@@ -47,7 +47,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(SearchFiltered(filterPlants()));
     });
   }
-
+//
   Iterable<PlantData> filterPlants() {
     plants = allPlants;
     print(allPlants);
