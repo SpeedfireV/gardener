@@ -43,8 +43,8 @@ The plant database was created with **ChatGPT** and stored in **Firestore**. Our
 
 - **Flutter** for cross-platform app development (iOS/Android)
 - **Firestore** for real-time database management
-- **Dart** as the programming language
-- **AI Engine** for intelligent plant suggestions
+- **Python** for creating records in Firestore database with Chat GPT
+- **Chat GPT** for intelligent plant suggestions
 
 ---
 
