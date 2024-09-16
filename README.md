@@ -1,18 +1,89 @@
-# gardener
+# 🌱 **GardenGenius**
 
-Gardener project
+**GardenGenius** is a mobile app built with **Flutter** for iOS and Android, designed to help beginner and professional gardeners alike create sustainable environments in their gardens. The app contains information on nearly 1000 different plants and uses AI to suggest plant pairings based on user selections.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 **Features**
 
-A few resources to get you started if this is your first Flutter project:
+### 📚 **Plant Encyclopedia**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+GardenGenius offers detailed information on nearly 1000 plants, including:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
+- **Name** & **Latin Name**
+- **Countries** where the plant can grow
+- **Optimal Air Humidity** & **Temperature**
+- **Growing Time** and **Growing Difficulty**
+- Detailed **Planting Instructions** and a **Seasonal Planting Calendar**
+- Required **Light, Water, and Soil** conditions
+- Year-round maintenance tips
+
+### 🔍 **AI Plant Matching**
+
+- Select plants and let the AI **suggest complementary plants**.
+- **Check compatibility** between selected plants to ensure they will grow harmoniously together.
+
+### 🔄 **Seasonal Planting Calendar**
+
+Get a personalized **seasonal calendar** for each plant with detailed guidance on when and how to plant, maintain, and harvest your garden.
+
+---
+
+## 🧠 **Powered by AI**
+
+The plant database was created with **ChatGPT** and stored in **Firestore**. Our AI analyzes your plant selection and suggests complementary plants, checking factors like:
+
+- **Soil compatibility**
+- **Water needs**
+- **Sunlight exposure**
+
+---
+
+## 🛠️ **Tech Stack**
+
+- **Flutter** for cross-platform app development (iOS/Android)
+- **Firestore** for real-time database management
+- **Dart** as the programming language
+- **AI Engine** for intelligent plant suggestions
+
+---
+
+## 📦 **Getting Started**
+
+### **Prerequisites**
+
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- Dart SDK (included with Flutter)
+- [Firebase account](https://firebase.google.com) for Firestore
+
+---
+
+## 📸 **Screenshots**
+![Screenshot 1](screenshots/Screenshot_20240907_141957.png)
+![Screenshot 2](screenshots/Screenshot_20240907_142146.png)
+![Screenshot 3](screenshots/Screenshot_20240907_142200.png)
+
+---
+
+## 💡 **Future Improvements**
+
+- Add a **community forum** for gardeners to share tips and advice.
+- Implement **plant disease detection** using image recognition.
+- Expand the plant database with more **region-specific plants**.
+- Integrate with **smart gardening systems** to automate watering and plant monitoring.
+
+---
+
+## 📄 **License**
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## **Contact**
+
+For any issues or contributions, feel free to open a pull request or create an issue in the repository.
+
+Happy coding!
+
 samples, guidance on mobile development, and a full API reference.
 
 
