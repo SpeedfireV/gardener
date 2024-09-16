@@ -59,9 +59,9 @@ The plant database was created with **ChatGPT** and stored in **Firestore**. Our
 ---
 
 ## 📸 **Screenshots**
-![Screenshot 1](screenshots/Screenshot_20240907_141957.png)
-![Screenshot 2](screenshots/Screenshot_20240907_142146.png)
-![Screenshot 3](screenshots/Screenshot_20240907_142200.png)
+![Screenshot 1](screenshots/all_plants.png)
+![Screenshot 2](screenshots/plant_info.png)
+![Screenshot 3](screenshots/plants_filtering.png)
 
 ---
 
