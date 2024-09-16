@@ -59,11 +59,17 @@ The plant database was created with **ChatGPT** and stored in **Firestore**. Our
 ---
 
 ## 📸 **Screenshots**
+### Home Page
 <img src="screenshots/home_page.png" alt="Home Page" width="240"/>
+### Plant Info Page
 <img src="screenshots/plant_info.png" alt="Plant Info Page" width="240"/>
+### All Plants Page
 <img src="screenshots/all_plants.png" alt="All Plants Page" width="240"/>
+### Plants Filtering
 <img src="screenshots/plants_filtering.png" alt="Plants Filtering" width="240"/>
+### Complementary Planting Page
 <img src="screenshots/complementary_planting.png" alt="Complementary Planting Page" width="240"/>
+### Complementary Planting Suggestion
 <img src="screenshots/suggested_complementary.png" alt="Complementary Planting Suggestion" width="240"/>
 
 ---
