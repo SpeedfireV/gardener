@@ -46,18 +46,6 @@ The plant database was created with **ChatGPT** and stored in **Firestore**. Our
 - **Python** for creating records in Firestore database with Chat GPT
 - **Chat GPT** for intelligent plant suggestions
 
----
-
-## 📦 **Getting Started**
-
-### **Prerequisites**
-
-- [Flutter SDK](https://flutter.dev/docs/get-started/install)
-- Dart SDK (included with Flutter)
-- [Firebase account](https://firebase.google.com) for Firestore
-
----
-
 ## 📸 **Screenshots**
 ### Home Page
 <img src="screenshots/home_page.png" alt="Home Page" width="240"/>
