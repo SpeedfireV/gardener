@@ -1,6 +1,6 @@
-# 🌱 **GardenGenius**
+# 🌱 **Gardener**
 
-**GardenGenius** is a mobile app built with **Flutter** for iOS and Android, designed to help beginner and professional gardeners alike create sustainable environments in their gardens. The app contains information on nearly 1000 different plants and uses AI to suggest plant pairings based on user selections.
+**Gardener** is a mobile app built with **Flutter** for iOS and Android, designed to help beginner and professional gardeners alike create sustainable environments in their gardens. The app contains information on nearly 1000 different plants and uses AI to suggest plant pairings based on user selections.
 
 ---
 
